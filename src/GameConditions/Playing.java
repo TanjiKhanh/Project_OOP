@@ -7,12 +7,23 @@ import java.awt.event.MouseEvent;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import utilz.LoadSave;
+import static main.Game.GAME_WIDTH;
 
 
 public class Playing extends Condition implements ConditionMethods{
 
     private Player player;
 	private LevelManager levelManager;
+
+
+    //Game cam focus variable
+    private int rightBorder = (int) ( GAME_WIDTH * 0.8 );
+    private int leftBorder = (int) ( GAME_WIDTH * 0.2 );
+    private int lvlOffset;
+    private int maxTilesLvlWidth = LoadSave.GetLevelData()[0].length;
+    private int maxTilesOffset = maxTilesLvlWidth - Game.TILES_IN_WIDTH;
+    private int maxLvlOffset = maxTilesOffset * Game.TILES_SIZE;
     
     public Playing(Game game){
         super(game);
@@ -26,16 +37,35 @@ public class Playing extends Condition implements ConditionMethods{
 
 	}
 
+    private void levelUpdate() {
+
+        int playerX =  (int) player.getHitbox().x ;
+        int diff = playerX - lvlOffset;
+
+
+        if( diff > rightBorder )
+        {
+            lvlOffset += diff - rightBorder;
+        }
+        else if( diff < leftBorder  )
+            lvlOffset += diff - leftBorder;
+        if( lvlOffset > maxLvlOffset)
+            lvlOffset = maxLvlOffset;
+        else if( lvlOffset < 0)
+            lvlOffset = 0;
+    }
+
     @Override
     public void update() {
 		levelManager.update();
 		player.update();
+        levelUpdate();
 	}
 
     @Override
     public void draw(Graphics g) {
-		levelManager.draw(g);
-		player.render(g);
+		levelManager.draw(g , lvlOffset );
+		player.render(g , lvlOffset);
 	}
 
     @Override

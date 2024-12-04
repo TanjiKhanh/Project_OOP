@@ -2,6 +2,8 @@ package levels;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Random;
+
 import main.Game;
 import utilz.LoadSave;
 
@@ -10,14 +12,32 @@ public class LevelManager {
     private Game game;
     private BufferedImage [] levelSprite;
     private Level levelOne;
+    private BufferedImage backgroundImage , smallCloudImage , bigCloudImage;
+    private int [] smallCloudsPos;
+    private Random random = new Random();
 
     public LevelManager(Game game) {
-        this.game = game;
         importOutsideSprites();
         levelOne = new Level(LoadSave.GetLevelData());
+        this.game = game;
+
+        smallCloudsPos = new int[8];
+        for (int i = 0; i < smallCloudsPos.length; i++)
+            smallCloudsPos[i] = (int) (90 * Game.SCALE) + random.nextInt((int) (100 * Game.SCALE));
     }
 
     private void importOutsideSprites() {
+        //Background image
+        backgroundImage = LoadSave.GetSpriteAtlas(LoadSave.BACKGROUND_IMAGE);
+
+
+        //Big cloud image
+        bigCloudImage = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUD_IMAGE);
+
+        //Small cloud image
+        smallCloudImage = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUD_IMAGE);
+
+        //Level background 2D array
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
         levelSprite = new BufferedImage[48];
         for (int j = 0; j < 4; j++) {
@@ -28,11 +48,25 @@ public class LevelManager {
         }
     }
 
-    public void draw(Graphics g) {
+
+    public void draw(Graphics g , int lvlOffset) {
+        //Draw background image
+        g.drawImage(backgroundImage, 0, 0, Game.GAME_WIDTH , Game.GAME_HEIGHT , null);
+
+        //Draw big cloud
+        for (int i = 0; i < 6; i++) {
+                g.drawImage(bigCloudImage , i * 448 -  lvlOffset , 360 , 448 , 101, null );
+        }
+
+        //Draw small cloud
+        for (int i = 0; i < smallCloudsPos.length; i++)
+            g.drawImage(smallCloudImage, 74 * 4 * i - (int) (lvlOffset * 0.7), smallCloudsPos[i], 74, 24, null);
+
+        //Draw level Background 2D array
         for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < levelOne.getLevelData()[0].length; i++) {
                 int index = levelOne.getSpriteIndex(i, j);
-                g.drawImage(levelSprite[index], Game.TILES_SIZE * i, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                g.drawImage(levelSprite[index], Game.TILES_SIZE * i - lvlOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
             }
         }
     }
