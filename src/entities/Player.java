@@ -54,9 +54,8 @@ public class Player extends Entity {
     }
 
     //Draw player
-    public void render(Graphics g) {
-        g.drawImage(animations[aniIndex + playerAction], (int) (hitbox.x - xDrawOffset), (int)(hitbox.y - yDrawOffset), width , height , null );
-        drawHitBox(g);
+    public void render(Graphics g , int lvlOffset) {
+        g.drawImage(animations[aniIndex + playerAction], (int) (hitbox.x - xDrawOffset)  - lvlOffset, (int)(hitbox.y - yDrawOffset), width , height , null );
     }
 
     public void loadLevelData(int[][] lvlData) {
