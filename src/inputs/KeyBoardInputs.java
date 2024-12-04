@@ -7,7 +7,7 @@ import static utilz.Constants.Direction.DOWN;
 import static utilz.Constants.Direction.LEFT;
 import static utilz.Constants.Direction.RIGHT;
 import static utilz.Constants.Direction.UP;
-
+import GameConditions.*;
 
 
 public class KeyBoardInputs implements KeyListener {
@@ -18,32 +18,30 @@ public class KeyBoardInputs implements KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                gamePanel.getGame().getPlayer().setLeft(true);
+        switch (gameConditions.condition) {
+            case MENU:
+                gamePanel.getGame().getMenu().keyPressed(e);
                 break;
-            case KeyEvent.VK_D:
-                gamePanel.getGame().getPlayer().setRight(true);
+            case PLAYING:
+                gamePanel.getGame().getPlaying().keyPressed(e);
                 break;
-            case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setJump(true);
+            default:
                 break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                gamePanel.getGame().getPlayer().setLeft(false);
+        switch (gameConditions.condition) {
+            case MENU:
+                gamePanel.getGame().getMenu().keyReleased(e);
                 break;
-            case KeyEvent.VK_D:
-                gamePanel.getGame().getPlayer().setRight(false);
+            case PLAYING:
+                gamePanel.getGame().getPlaying().keyReleased(e);
                 break;
-            case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setJump(false);
+            default:
                 break;
-        }
+            }
     }
     @Override
     public void keyTyped(KeyEvent e) {

@@ -7,7 +7,7 @@ public class GameWindow {
     public GameWindow( JPanel jPanel)
     {
         jFrame = new JFrame();
-        jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLayout(new BorderLayout());
         jFrame.add(jPanel , BorderLayout.CENTER);
         jFrame.pack();

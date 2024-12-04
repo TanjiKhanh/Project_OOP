@@ -5,12 +5,17 @@ import levels.LevelManager;
 
 import java.awt.*;
 
+import GameConditions.*;
+import GameConditions.Menu;
+
 public class Game implements Runnable {
     private GameWindow gameWindow;
 	private Player player;
 	private LevelManager levelManager;
     private GamePanel gamePanel;
     private Thread gameThread;
+	private Playing playing;
+	private Menu menu;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 	public final static int TILES_DEFAULT_SIZE = 32;
@@ -33,9 +38,8 @@ public class Game implements Runnable {
 
 	private void initialClasses()
 	{
-		player = new Player(200, 200, (int) (18 * Game.SCALE), (int) (34 * Game.SCALE));
-		levelManager = new LevelManager();
-		player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+		menu = new Menu(this);
+		playing = new Playing(this);
 	}
     
     private void startGameLoop()
@@ -44,14 +48,33 @@ public class Game implements Runnable {
         gameThread.start();
     }
     private void update() {
-		player.update();
-		levelManager.update();
+		switch (gameConditions.condition) {
+			case MENU:
+				menu.update();
+				break;
+			case PLAYING:
+				playing.update();
+				break;
+			case OPTIONS:
+			case QUIT:
+			default:
+				System.exit(0);
+				break;
+			}
     }
 
 	public void render(Graphics g)
 	{
-		player.render(g);
-		levelManager.draw(g);
+		switch (gameConditions.condition) {
+		case MENU:
+			menu.draw(g);
+			break;
+		case PLAYING:
+			playing.draw(g);
+			break;
+		default:
+			break;
+		}
 	}
     @Override
 	public void run() {
@@ -101,5 +124,13 @@ public class Game implements Runnable {
 
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public Playing getPlaying() {
+		return playing;
 	}
 }
