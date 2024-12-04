@@ -22,11 +22,6 @@ public abstract class Entity {
 		hitbox = new Rectangle2D.Float((int) x, (int) y, (int) width,(int) height);
 	}
 
-	// Updating coordinate when Entity move
-	protected void updateHitBox() {
-		hitbox.x = (int) x;
-		hitbox.y = (int) y;
-	}
 
 	// Draw hitbox
 	protected void drawHitBox(Graphics g) {

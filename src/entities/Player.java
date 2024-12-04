@@ -3,12 +3,16 @@ package entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import main.Game;
+
+import static main.Game.TILES_SIZE;
 import static utilz.Constants.Direction.*;
 import static utilz.Constants.PlayerConstants.*;
 
 import utilz.Constants;
 import utilz.HelpMethods;
 import utilz.LoadSave;
+
+import static utilz.HelpMethods.*;
 import static utilz.LoadSave.*;
 
 public class Player extends Entity {
@@ -19,10 +23,19 @@ public class Player extends Entity {
     private int playerAction = IDLE;
     private int playerDir = -1;
     private boolean running = false;
+    private boolean left, up, right, down, jump;
+
     private float playerSpeed = 1.0f * Game.SCALE;
-    private float xDrawOffset =  Game.SCALE - 5;
-    private float yDrawOffset = Game.SCALE - 2;
+    private float xDrawOffset =  Game.SCALE - 4;
+    private float yDrawOffset = Game.SCALE - 3;
     private int[][] lvlData;
+
+    // Jumping / Gravity
+    private float airSpeed = 0f;
+    private float gravity = 0.04f * Game.SCALE;
+    private float jumpSpeed = -2.25f * Game.SCALE;
+    private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
+    private boolean inAir = false;
 
     public Player(float  x, float  y ,  int width , int height) {
         super(x, y , width , height);
@@ -30,12 +43,12 @@ public class Player extends Entity {
         initHitbox( x , y , 18 * Game.SCALE , 34 * Game.SCALE);
 
     }
+    
 
 
 
     public void update() {
         setPos();
-        updateHitBox();
         updateAnimationTick();
         setAnimation();
     }
@@ -66,83 +79,96 @@ public class Player extends Entity {
 
 
         }
-//        animations = new BufferedImage[9][6];
-//        for (int i = 0; i < animations.length; i++) {
-//            for (int j = 0; j < animations[i].length; j++) {
-//                animations[i][j] = img.getSubimage(j * 64, i * 40, 64, 40);
-//            }
-//        }
     }
 
-    public void setPos() {
-        if (playerDir == -1) return; // No movement if playerDir is -1
+    private void setAnimation() {
+        int startAni = playerAction;
 
-        float xTemp = 0, yTemp = 0;
+        if (running)
+            playerAction = RUNNING;
+        else
+            playerAction = IDLE;
 
-        switch (playerDir) {
-            case UP:
-                yTemp = -playerSpeed;
-                break;
-            case DOWN:
-                yTemp = +playerSpeed;
-                break;
-            case LEFT:
-                xTemp = -playerSpeed;
-                break;
-            case RIGHT:
-                xTemp = +playerSpeed;
-                break;
+        if (inAir) {
+            if (airSpeed < 0)
+                playerAction = JUMP;
+            else
+                playerAction = FALLING;
         }
 
-        if (HelpMethods.canMoveHere((int) hitbox.x + xTemp, (int) hitbox.y + yTemp, hitbox.width, hitbox.height, lvlData)) {
-            this.x += xTemp;
-            this.y += yTemp;
-        }
 
+        if (startAni != playerAction)
+            resetAniTick();
     }
 
+    private void resetAniTick() {
+        aniTick = 0;
+        aniIndex = 0;
+    }
 
-    // public void setPos() {
-    //     switch (playerDir) {
-    //         case UP:
-    //             y -= playerSpeed;
-    //             break;
-    //         case DOWN:
+    private void setPos() {
+        running = false;
 
-    //             y += playerSpeed;
-    //             break;
-    //         case LEFT:
-    //             x -= playerSpeed;
-    //             break;
-    //         case RIGHT:
-    //             x += playerSpeed;
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
+        if (jump)
+            jump();
 
+        if (!inAir)
+            if ((!left && !right) || (right && left))
+                return;
 
-    public void setDirection(int direction) {
-        this.playerDir = direction;
+        float xSpeed = 0;
+
+        if (left)
+            xSpeed -= playerSpeed;
+        if (right)
+            xSpeed += playerSpeed;
+
+        if (!inAir)
+            if (!IsEntityOnFloor(hitbox, lvlData))
+                inAir = true;
+        if (inAir) {
+            if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+                hitbox.y += airSpeed;
+                airSpeed += gravity;
+                updateXPos(xSpeed);
+            } else {
+//                hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox , airSpeed);
+                if (airSpeed > 0)
+                    resetInAir();
+                else
+                    airSpeed = fallSpeedAfterCollision;
+                updateXPos(xSpeed);
+            }
+
+        } else
+            updateXPos(xSpeed);
+
         running = true;
     }
 
-    public void isRunning(boolean running) {
-        this.running = running;
-    }
-
-    public void setAnimation() {
-        if (running) {
-            playerAction = RUNNING;
-        }
-
-        else {
-            playerAction = IDLE;
-            playerDir = -1;
-        }
+    private void jump() {
+        if (inAir)
+            return;
+        inAir = true;
+        airSpeed = jumpSpeed;
 
     }
+
+    private void resetInAir() {
+        inAir = false;
+        airSpeed = 0;
+
+    }
+
+    private void updateXPos(float xSpeed) {
+        if (canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
+            hitbox.x += xSpeed;
+        }
+        else
+            hitbox.x = GetEntityXPosNextToWall(hitbox , xSpeed);
+
+    }
+
 
     //Draw animation per tick
     private void updateAnimationTick() {
@@ -156,15 +182,17 @@ public class Player extends Entity {
         }
     }
 
-//    public BufferedImage[][] getAnimations() {
-//        return animations;
-//    }
 
-    public float getDeltaX() {
-        return x;
+    public void setLeft(boolean left) {
+        this.left = left;
     }
-    public float getDeltaY() {
-        return y;
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump = jump;
     }
 
     public int getAniIndex() {
