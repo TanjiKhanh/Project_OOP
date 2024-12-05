@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
@@ -15,6 +16,7 @@ public class Playing extends Condition implements ConditionMethods{
 
     private Player player;
 	private LevelManager levelManager;
+    private EnemyManager enemyManager;
 
 
     //Game cam focus variable
@@ -34,7 +36,7 @@ public class Playing extends Condition implements ConditionMethods{
 		levelManager = new LevelManager(game);
 		player = new Player(200, 200, (int) (18 * Game.SCALE), (int) (34 * Game.SCALE));
 		player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
-
+        enemyManager = new EnemyManager();
 	}
 
     private void levelUpdate() {
@@ -66,6 +68,7 @@ public class Playing extends Condition implements ConditionMethods{
     public void draw(Graphics g) {
 		levelManager.draw(g , lvlOffset );
 		player.render(g , lvlOffset);
+        enemyManager.draw(g);
 	}
 
     @Override
