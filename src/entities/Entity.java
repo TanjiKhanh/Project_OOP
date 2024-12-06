@@ -23,6 +23,7 @@ public abstract class Entity {
 	}
 
 
+
 	// Draw hitbox
 	protected void drawHitBox(Graphics g) {
 		g.setColor(Color.PINK);
