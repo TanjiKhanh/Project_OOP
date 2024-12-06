@@ -50,11 +50,12 @@ public abstract class Enemy extends Entity{
         else
             xSpeed = walkSpeed;
         if (canMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, lvlData))
-            if (isFloor(hitbox, xSpeed, lvlData)) {
-                hitbox.x += xSpeed;
-                return;
+            if (!isFloor(hitbox, xSpeed, lvlData) || !nextToWall(hitbox, xSpeed, lvlData)) {
+                changeWalkDir();
             }
-        changeWalkDir();
+            else
+                hitbox.x += xSpeed;
+
     }
 
     public void updateAnimationTick() {
