@@ -4,12 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import main.Game;
 
-import static main.Game.TILES_SIZE;
-import static utilz.Constants.Direction.*;
 import static utilz.Constants.PlayerConstants.*;
 
-import utilz.Constants;
-import utilz.HelpMethods;
 import utilz.LoadSave;
 
 import static utilz.HelpMethods.*;
@@ -43,7 +39,7 @@ public class Player extends Entity {
         initHitbox( x , y , 18 * Game.SCALE , 34 * Game.SCALE);
 
     }
-    
+
 
 
 
@@ -65,7 +61,7 @@ public class Player extends Entity {
 
     //Load all animation to bufferedImage
     private void loadAnimation() {
-        img = LoadSave.GetSpriteAtlas(PLAYER_ATLAS);
+        img = LoadSave.GetSpriteAtlas(CHARACTERS_ATLAS);
         animations = new BufferedImage[28];
         for( int i = 0 ; i < animations.length ; i++ )
         {

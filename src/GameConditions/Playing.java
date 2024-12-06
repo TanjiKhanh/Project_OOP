@@ -15,8 +15,9 @@ import static main.Game.GAME_WIDTH;
 public class Playing extends Condition implements ConditionMethods{
 
     private Player player;
-	private LevelManager levelManager;
+    private LevelManager levelManager;
     private EnemyManager enemyManager;
+
 
 
     //Game cam focus variable
@@ -26,18 +27,18 @@ public class Playing extends Condition implements ConditionMethods{
     private int maxTilesLvlWidth = LoadSave.GetLevelData()[0].length;
     private int maxTilesOffset = maxTilesLvlWidth - Game.TILES_IN_WIDTH;
     private int maxLvlOffset = maxTilesOffset * Game.TILES_SIZE;
-    
+
     public Playing(Game game){
         super(game);
         initClasses();
     }
-    
+
     private void initClasses() {
-		levelManager = new LevelManager(game);
-		player = new Player(200, 200, (int) (18 * Game.SCALE), (int) (34 * Game.SCALE));
-		player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+        levelManager = new LevelManager(game);
+        player = new Player(200, 200, (int) (18 * Game.SCALE), (int) (34 * Game.SCALE));
+        player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         enemyManager = new EnemyManager();
-	}
+    }
 
     private void levelUpdate() {
 
@@ -59,36 +60,37 @@ public class Playing extends Condition implements ConditionMethods{
 
     @Override
     public void update() {
-		levelManager.update();
-		player.update();
+        levelManager.update();
+        player.update();
         levelUpdate();
-	}
+        enemyManager.update(levelManager.getCurrentLevel().getLevelData());
+    }
 
     @Override
     public void draw(Graphics g) {
-		levelManager.draw(g , lvlOffset );
-		player.render(g , lvlOffset);
-        enemyManager.draw(g);
-	}
+        levelManager.draw(g , lvlOffset );
+        player.render(g , lvlOffset);
+        enemyManager.draw(g , lvlOffset);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-       
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        
+
     }
 
     @Override
@@ -121,7 +123,7 @@ public class Playing extends Condition implements ConditionMethods{
         }
     }
 
-	public Player getPlayer() {
-		return player;
-	}
+    public Player getPlayer() {
+        return player;
+    }
 }
