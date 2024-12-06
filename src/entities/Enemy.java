@@ -50,7 +50,7 @@ public abstract class Enemy extends Entity{
         else
             xSpeed = walkSpeed;
         if (canMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, lvlData))
-            if (!isFloor(hitbox, xSpeed, lvlData) || !nextToWall(hitbox, xSpeed, lvlData)) {
+            if (!isFloor(hitbox, xSpeed, lvlData) ){
                 changeWalkDir();
             }
             else
@@ -81,7 +81,6 @@ public abstract class Enemy extends Entity{
             walkDir = LEFT;
 
     }
-
 
     public int getAniIndex() {
         return aniIndex;
