@@ -52,6 +52,7 @@ public class Player extends Entity {
     //Draw player
     public void render(Graphics g , int lvlOffset) {
         g.drawImage(animations[aniIndex + playerAction], (int) (hitbox.x - xDrawOffset)  - lvlOffset, (int)(hitbox.y - yDrawOffset), width , height , null );
+        drawHitBox(g);
     }
 
     public void loadLevelData(int[][] lvlData) {
@@ -146,7 +147,6 @@ public class Player extends Entity {
             return;
         inAir = true;
         airSpeed = jumpSpeed;
-
     }
 
     private void resetInAir() {

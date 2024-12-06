@@ -81,6 +81,7 @@ public abstract class Enemy extends Entity{
 
     }
 
+
     public int getAniIndex() {
         return aniIndex;
     }
