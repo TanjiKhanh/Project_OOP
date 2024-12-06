@@ -12,7 +12,7 @@ import main.Game;
 import static utilz.Constants.EnemyConstants.*;
 
 public class LoadSave {
-    public static final String PLAYER_ATLAS = "characters.gif";
+	public static final String CHARACTERS_ATLAS = "characters.gif";
 	public static final String LEVEL_ATLAS = "outside_sprites.png";
 	public static final String LEVEL_ONE_DATA = "level_one_data_long.png";
 	public static final String MENU_BUTTONS = "button_atlas.png";
@@ -22,7 +22,7 @@ public class LoadSave {
 	public static final String SMALL_CLOUD_IMAGE = "small_clouds.png";
 	public static final String TURTLES = "crabby_sprite.png";
 
-    public static BufferedImage GetSpriteAtlas(String fileName) {
+	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
 		InputStream is = LoadSave.class.getResourceAsStream("/res/" + fileName);
 		try {
@@ -40,19 +40,17 @@ public class LoadSave {
 		return img;
 	}
 
+	//Get position of Turtle in level
 	public static ArrayList<Turtle> GetTurtle() {
-		BufferedImage img = GetSpriteAtlas(TURTLES);
+		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
 		ArrayList<Turtle> list = new ArrayList<>();
-		for(int i = 0; i < 4 ; i++){
-			list.add(new Turtle(100 * i , 200 ));
-		}
-//		for (int j = 0; j < img.getHeight(); j++)
-//			for (int i = 0; i < img.getWidth(); i++) {
-//				Color color = new Color(img.getRGB(i, j));
-//				int value = color.getGreen();
-//				if (value == TURTLE)
-//					list.add(new Turtle(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
-//			}
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if (value == TURTLE)
+					list.add(new Turtle(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
+			}
 		return list;
 	}
 

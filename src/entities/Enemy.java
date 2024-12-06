@@ -1,11 +1,21 @@
 package entities;
 
-import static utilz.Constants.EnemyConstants.GetSpriteAmount;
+import main.Game;
+
+import static utilz.Constants.Direction.*;
+import static utilz.Constants.EnemyConstants.*;
+import static utilz.HelpMethods.*;
+
 
 public abstract class Enemy extends Entity{
-    private int aniIndex, enemyState, enemyType;
+    protected int aniIndex, enemyState = IDLE, enemyType;
     private int aniTick, aniSpeed = 25;
-    private boolean firstUpdate = true;
+    protected boolean firstUpdate = true;
+    protected boolean inAir = false;
+    protected float fallSpeed;
+    protected float gravity = 0.04f * Game.SCALE;
+    protected float walkSpeed = 0.35f * Game.SCALE;
+    protected int walkDir = LEFT;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -13,23 +23,61 @@ public abstract class Enemy extends Entity{
         initHitbox(x, y, width, height);
     }
 
+    protected void firstUpdateCheck(int[][] lvlData) {
+        if (!IsEntityOnFloor(hitbox, lvlData))
+            inAir = true;
+        firstUpdate = false;
+    }
+
+    protected void updateInAir(int[][] lvlData) {
+        if (inAir) {
+            if (canMoveHere(hitbox.x, hitbox.y + fallSpeed, hitbox.width, hitbox.height, lvlData)) {
+                hitbox.y += fallSpeed;
+                fallSpeed += gravity;
+            } else {
+                inAir = false;
+            }
+        }
+    }
+
+
+
+    protected void Move(int[][] lvlData) {
+        float xSpeed = 0;
+
+        if (walkDir == LEFT)
+            xSpeed = -walkSpeed;
+        else
+            xSpeed = walkSpeed;
+        if (canMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, lvlData))
+            if (isFloor(hitbox, xSpeed, lvlData)) {
+                hitbox.x += xSpeed;
+                return;
+            }
+        changeWalkDir();
+    }
+
     public void updateAnimationTick() {
         aniTick++;
         if(aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if(aniIndex >= GetSpriteAmount(enemyType, enemyState)) {
+            if(aniIndex >= GetSpriteAmount(TURTLE, enemyState)) {
                 aniIndex = 0;
             }
         }
     }
 
     public void update(int[][] levelData) {
-        updateMove(levelData);
         updateAnimationTick();
+
     }
 
-    private void updateMove(int[][] levelData) {
+    private void changeWalkDir() {
+        if (walkDir == LEFT)
+            walkDir = RIGHT;
+        else
+            walkDir = LEFT;
 
     }
 

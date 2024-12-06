@@ -8,12 +8,14 @@ import main.Game;
 import main.GamePanel;
 import utilz.LoadSave;
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.PlayerConstants.GetSpriteAmount;
 
 public class EnemyManager {
     // private Playing playing; // chua co class
-    private BufferedImage [][] turtleArr;
+    private BufferedImage [] turtleArr;
     private ArrayList<Turtle> turtles = new ArrayList<>();
     private GamePanel gamePanel;
+    private int aniTick, aniSpeed = 25;
 
     public EnemyManager() {
         loadEnemyImgs();
@@ -28,32 +30,38 @@ public class EnemyManager {
         turtles = LoadSave.GetTurtle();
     }
 
-    // public void update(int[][] levelData) {
-    //     for(Turtle i : turtles) {
-    //         i.update(levelData);
-    //     }
-    // }
-
-    public void draw(Graphics g) {
-        drawTurtle(g);
-    }
-
-    private void drawTurtle(Graphics g) {
+    public void update(int[][] lvlData) {
         for(Turtle i : turtles) {
-            g.drawImage(turtleArr[0][0], (int)i.x - i.getxOffset(), (int)i.y - i.getyOffset(), TURTLE_WIDTH, TURTLE_HEIGHT, null);
-            // getHitbox viet o x, y.
-            i.drawHitBox(g);
+            i.update(lvlData);
         }
     }
+
+    public void draw(Graphics g , int lvlOffset) {
+        drawTurtle(g , lvlOffset);
+    }
+
+    private void drawTurtle(Graphics g , int lvlOffset) {
+        for(Turtle turtle : turtles) {
+            g.drawImage(turtleArr[turtle.getEnemyState() + turtle.getAniIndex()] , (int)turtle.hitbox.x - lvlOffset , (int)turtle.hitbox.y  , TURTLE_WIDTH, TURTLE_HEIGHT, null);
+            turtle.drawHitBox(g);
+        }
+    }
+
+
+
+
     private void loadEnemyImgs() {
-        turtleArr = new BufferedImage[5][9];
-        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.TURTLES);
-        for(int j = 0; j < turtleArr.length; j++) {
-            for(int i = 0; i < turtleArr[j].length; i++) {
-                turtleArr[j][i] = temp.getSubimage(i * TURTLE_WIDTH_DEFAULT, j * TURTLE_HEIGHT_DEFAULT, TURTLE_WIDTH_DEFAULT, TURTLE_HEIGHT_DEFAULT);
+        turtleArr = new BufferedImage[24];
+        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.CHARACTERS_ATLAS);
+        for (int i = 0; i < turtleArr.length; i++) {
+            {
+//                if( i < 3)
+                turtleArr[i] = temp.getSubimage(29 + i * 19,  203 , TURTLE_WIDTH_DEFAULT, TURTLE_HEIGHT_DEFAULT);
+//                else
+//                    turtleArr[i] = temp.getSubimage(29 + i * 18,  206 , TURTLE_WIDTH_DEFAULT, TURTLE_HEIGHT_DEFAULT);
+
             }
         }
     }
-
 
 }

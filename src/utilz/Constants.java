@@ -4,13 +4,13 @@ import main.Game;
 
 public class Constants {
     public static class UI {
-		public static class Buttons {
-			public static final int B_WIDTH_DEFAULT = 152;
-			public static final int B_HEIGHT_DEFAULT = 67;
-			public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE);
-			public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * Game.SCALE);
-		}
-	}
+        public static class Buttons {
+            public static final int B_WIDTH_DEFAULT = 152;
+            public static final int B_HEIGHT_DEFAULT = 67;
+            public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE);
+            public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * Game.SCALE);
+        }
+    }
     public static class Direction
     {
         public static final int LEFT = 0;
@@ -58,14 +58,14 @@ public class Constants {
     public static class EnemyConstants {
         public static final int TURTLE = 0;
 
-        public static final int IDLE = 14;
-        public static final int RUNNING  = 16;
+        public static final int IDLE = 13;
+        public static final int RUNNING  = 14;
         public static final int ATTACK = 18;
         public static final int HIT = 17;
         public static final int DEAD = 19;
 
-        public static final int TURTLE_WIDTH_DEFAULT = 72;
-        public static final int TURTLE_HEIGHT_DEFAULT = 32;
+        public static final int TURTLE_WIDTH_DEFAULT = 20;
+        public static final int TURTLE_HEIGHT_DEFAULT = 29;
 
         public static final int TURTLE_WIDTH = (int) (TURTLE_WIDTH_DEFAULT * Game.SCALE);
         public static final int TURTLE_HEIGHT = (int) (TURTLE_HEIGHT_DEFAULT * Game.SCALE);
@@ -78,9 +78,9 @@ public class Constants {
                 case TURTLE:
                     switch (enemy_state) {
                         case IDLE:
-                            return 9;
+                            return 0;
                         case RUNNING:
-                            return 6;
+                            return 2;
                         case ATTACK:
                             return 7;
                         case HIT:
