@@ -43,7 +43,6 @@ public class EnemyManager {
     private void drawTurtle(Graphics g , int lvlOffset) {
         for(Turtle turtle : turtles) {
             g.drawImage(turtleArr[turtle.getEnemyState() + turtle.getAniIndex()] , (int)turtle.hitbox.x - lvlOffset , (int)turtle.hitbox.y  , TURTLE_WIDTH, TURTLE_HEIGHT, null);
-            turtle.drawHitBox(g);
         }
     }
 
