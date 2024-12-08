@@ -5,6 +5,7 @@ import static utilz.Constants.EnemyConstants.*;
 import main.Game;
 import utilz.LoadSave;
 
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 
@@ -46,6 +47,16 @@ public class Turtle extends Enemy{
 
     public int getyOffset() {
         return yOffset;
+    }
+
+    @Override
+    public Rectangle2D.Float getHitbox() {
+        return super.getHitbox();
+    }
+
+    @Override
+    public void setEnemyState(int enemyState) {
+        super.setEnemyState(enemyState);
     }
 
     @Override

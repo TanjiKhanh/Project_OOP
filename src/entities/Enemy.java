@@ -12,10 +12,11 @@ public abstract class Enemy extends Entity{
     private int aniTick, aniSpeed = 25;
     protected boolean firstUpdate = true;
     protected boolean inAir = false;
-    protected float fallSpeed;
+    protected float fallSpeed = 0;
     protected float gravity = 0.04f * Game.SCALE;
     protected float walkSpeed = 0.35f * Game.SCALE;
     protected int walkDir = LEFT;
+    protected boolean isDead = false;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -42,7 +43,7 @@ public abstract class Enemy extends Entity{
 
 
 
-    protected void Move(int[][] lvlData) {
+    public void Move(int[][] lvlData) {
         float xSpeed = 0;
 
         if (walkDir == LEFT)
@@ -82,11 +83,33 @@ public abstract class Enemy extends Entity{
 
     }
 
+    public void setEnemyState(int enemyState) {
+        this.enemyState = enemyState;
+    }
+
     public int getAniIndex() {
         return aniIndex;
     }
 
     public int getEnemyState() {
         return enemyState;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
+    public void resetEnemy() {
+        hitbox.x = x;
+        hitbox.y = y;
+        firstUpdate = true;
+        inAir = false;
+        enemyState = IDLE;
+        fallSpeed = 0;
+        isDead = false;
     }
 }

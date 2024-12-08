@@ -2,10 +2,15 @@ package entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import GameConditions.Playing;
 import main.Game;
 
 import static utilz.Constants.PlayerConstants.*;
+import static utilz.Constants.EnemyConstants;
 
+import main.GamePanel;
 import utilz.LoadSave;
 
 import static utilz.HelpMethods.*;
@@ -13,13 +18,16 @@ import static utilz.LoadSave.*;
 
 public class Player extends Entity {
 
+    private Playing playing;
+
     private BufferedImage img;
-    private BufferedImage[] animations;
+    private BufferedImage[] bigMarioAnimations;
     private int aniTick, aniIndex, aniSpeed = 25; //UPS 200 - 4 animtion per second
     private int playerAction = IDLE;
     private int playerDir = -1;
     private boolean running = false;
-    private boolean left, up, right, down, jump;
+    private boolean left, right, jump;
+
 
     private float playerSpeed = 1.0f * Game.SCALE;
     private float xDrawOffset =  Game.SCALE - 4;
@@ -32,26 +40,41 @@ public class Player extends Entity {
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
+    private EnemyManager enemyManager;
 
-    public Player(float  x, float  y ,  int width , int height) {
+
+    //Dead
+    private boolean isDead = false; // Tracks if the player is in the death animation
+    private float deathVelocityY = -1.2f * Game.SCALE; // Initial bounce velocity
+    private float deathGravity = 0.01f * Game.SCALE; // Gravity for death animation
+
+    public Player(float  x, float  y ,  int width , int height , EnemyManager enemyManager , Playing playing) {
         super(x, y , width , height);
         loadAnimation();
         initHitbox( x , y , 18 * Game.SCALE , 34 * Game.SCALE);
-
+        this.enemyManager = enemyManager;
+        this.playing = playing;
     }
 
 
 
 
     public void update() {
+
+        if (isDead) {
+            handleDeathAnimation(); // Continue death animation if necessary
+            return; // Skip collision and other updates
+        }
+        //collision before setPos to handle reset airspeed
+        collisionEnemy();
         setPos();
-        updateAnimationTick();
         setAnimation();
+        updateAnimationTick();
     }
 
     //Draw player
     public void render(Graphics g , int lvlOffset) {
-        g.drawImage(animations[aniIndex + playerAction], (int) (hitbox.x - xDrawOffset)  - lvlOffset, (int)(hitbox.y - yDrawOffset), width , height , null );
+        g.drawImage(bigMarioAnimations[playerAction + aniIndex], (int) (hitbox.x - xDrawOffset)  - lvlOffset, (int)(hitbox.y - yDrawOffset), (int)(BIG_MARIO_WIDTH_DEFAULT * Game.SCALE) ,  (int)(BIG_MARIO_HEIGHT_DEFAULT * Game.SCALE) , null );
     }
 
     public void loadLevelData(int[][] lvlData) {
@@ -62,23 +85,34 @@ public class Player extends Entity {
     //Load all animation to bufferedImage
     private void loadAnimation() {
         img = LoadSave.GetSpriteAtlas(CHARACTERS_ATLAS);
-        animations = new BufferedImage[28];
-        for( int i = 0 ; i < animations.length ; i++ )
+
+        //Load big mario animation
+        bigMarioAnimations = new BufferedImage[29];
+        for(int i = 0; i < bigMarioAnimations.length ; i++ )
         {
             if( i < 9 )
-                animations[i] = img.getSubimage(18 * i, 0 , 18 , 34 );
+                bigMarioAnimations[i] = img.getSubimage(BIG_MARIO_WIDTH_DEFAULT * i, 0 , BIG_MARIO_WIDTH_DEFAULT , BIG_MARIO_HEIGHT_DEFAULT );
             else if ( i < 14 )
-                animations[i] = img.getSubimage(18 * i + 2, 0 , 18 , 34 );
+                bigMarioAnimations[i] = img.getSubimage(BIG_MARIO_WIDTH_DEFAULT * i + 2, 0 , BIG_MARIO_WIDTH_DEFAULT , BIG_MARIO_HEIGHT_DEFAULT );
+            else if( i == 28)
+                bigMarioAnimations[i] = img.getSubimage(12, 44 , 16 , 17 );
             else
-                animations[i] = img.getSubimage(18 * i + 7, 0 , 18 , 34 );
-
+                bigMarioAnimations[i] = img.getSubimage(BIG_MARIO_WIDTH_DEFAULT * i + 7, 0 , BIG_MARIO_WIDTH_DEFAULT , BIG_MARIO_HEIGHT_DEFAULT );
 
         }
+
+
     }
 
     private void setAnimation() {
         int startAni = playerAction;
 
+        //if isDead = true return and reset aniTick
+        if(isDead)
+        {
+            resetAniTick();
+            return;
+        }
         if (running)
             playerAction = RUNNING;
         else
@@ -91,14 +125,61 @@ public class Player extends Entity {
                 playerAction = FALLING;
         }
 
-
         if (startAni != playerAction)
             resetAniTick();
     }
 
+
+
+    private void handleDeathAnimation() {
+        hitbox.y += deathVelocityY; // Move the player vertically
+        deathVelocityY += deathGravity; // Apply gravity to velocity
+        if(hitbox.y >= Game.GAME_HEIGHT)
+            playing.setGameOver(true);
+
+
+    }
+//
+//    private void deadMovement() {
+//        if (isDead) return; // Prevent restarting the animation
+//        isDead = true; // Set death state
+//        playerAction = DEAD; // Set animation to dead
+//        deathVelocityY = -0.05f  * Game.SCALE; // Reset upward bounce velocity
+//    }
+
+//    private void resetDeathAnimation() {
+//        playerAction = IDLE; // Reset to idle state after animation
+//        deathVelocityY = 0; // Reset velocity
+//    }
+
     private void resetAniTick() {
         aniTick = 0;
         aniIndex = 0;
+    }
+
+
+    //Handle collision player with enemy
+    private void collisionEnemy()
+    {
+        ArrayList<Turtle> turtles = enemyManager.getTurtles();
+        for( int i = 0 ; i < turtles.size() ; i++)
+        {
+            Turtle turtle = turtles.get(i);
+            if(turtle.isDead())
+                continue;
+            //if collision above the turtles frames
+            if(playerCollisionAboveEnemies(hitbox , turtle.getHitbox() ))
+            {
+                //set enemy animation dead
+                turtle.setEnemyState(EnemyConstants.DEAD);
+                //Smoothly movement
+                airSpeed += 1.5f * jumpSpeed;
+                turtle.setDead(true);
+            }
+            //Collsion other direction
+            else if( hitbox.intersects(turtle.getHitbox()))
+                deadMovement();
+        }
     }
 
     private void setPos() {
@@ -123,9 +204,15 @@ public class Player extends Entity {
                 inAir = true;
         if (inAir) {
             if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+
                 hitbox.y += airSpeed;
                 airSpeed += gravity;
                 updateXPos(xSpeed);
+                if(hitbox.y >= Game.GAME_HEIGHT)
+                {
+                    deadMovement();
+                    return;
+                }
             } else {
                 hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox , airSpeed);
 
@@ -141,6 +228,13 @@ public class Player extends Entity {
             updateXPos(xSpeed);
 
         running = true;
+    }
+
+
+    private void deadMovement()
+    {
+        playerAction = DEAD;
+        isDead = true;
     }
 
     private void jump() {
@@ -168,6 +262,8 @@ public class Player extends Entity {
 
     //Draw animation per tick
     private void updateAnimationTick() {
+        if(isDead)
+            return;
         aniTick++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
@@ -196,5 +292,17 @@ public class Player extends Entity {
     }
     public int getPlayerAction() {
         return playerAction;
+    }
+
+    public void resetAll() {
+        hitbox.x = x;
+        hitbox.y = y;
+        resetInAir();
+        running = false;
+        playerAction = IDLE;
+        left = false;
+        right = false;
+        jump = false;
+        isDead = false;
     }
 }

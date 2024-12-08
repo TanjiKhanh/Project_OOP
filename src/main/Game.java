@@ -133,4 +133,8 @@ public class Game implements Runnable {
 	public Playing getPlaying() {
 		return playing;
 	}
+
+	public GamePanel getGamePanel() {
+		return gamePanel;
+	}
 }
