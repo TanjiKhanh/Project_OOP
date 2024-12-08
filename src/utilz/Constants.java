@@ -23,11 +23,20 @@ public class Constants {
         public static final int RUNNING = 16;
         public static final int JUMP = 20;
         public static final int FALLING = 21;
-        public static final int GROUND = 4;
+        public static final int DEAD = 28;
         public static final int HIT = 5;
         public static final int ATTACK = 6;
         public static final int ATTACK_JUMP_1 = 7;
         public static final int ATTACK_JUMP_2 = 8;
+
+
+
+        public static final int BIG_MARIO_WIDTH_DEFAULT = 18;
+        public static final int BIG_MARIO_HEIGHT_DEFAULT = 34;
+        public static final int SMALL_MARIO_WIDTH_DEFAULT = 16;
+        public static final int SMALL_MARIO_HEIGHT_DEFAULT = 25;
+
+
 
         public static int GetSpriteAmount( int player_action)
         {
@@ -41,8 +50,8 @@ public class Constants {
                     return 0;
                 case FALLING:
                     return 0;
-                case GROUND:
-                    return 4;
+                case DEAD:
+                    return 0;
                 case HIT:
                     return 4;
                 case ATTACK:
@@ -60,9 +69,9 @@ public class Constants {
 
         public static final int IDLE = 13;
         public static final int RUNNING  = 14;
-        public static final int ATTACK = 18;
-        public static final int HIT = 17;
-        public static final int DEAD = 19;
+        public static final int ATTACK = 2;
+        public static final int HIT = 1;
+        public static final int DEAD = 17;
 
         public static final int TURTLE_WIDTH_DEFAULT = 20;
         public static final int TURTLE_HEIGHT_DEFAULT = 29;
@@ -86,7 +95,7 @@ public class Constants {
                         case HIT:
                             return 4;
                         case DEAD:
-                            return 5;
+                            return 0;
                         default:
                             return 1;
                     }

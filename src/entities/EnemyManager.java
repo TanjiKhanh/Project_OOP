@@ -63,4 +63,13 @@ public class EnemyManager {
         }
     }
 
+    public ArrayList<Turtle> getTurtles() {
+        return turtles;
+    }
+
+    public void resetAllEnermy() {
+        for(Turtle i : turtles) {
+            i.resetEnemy();
+        }
+    }
 }

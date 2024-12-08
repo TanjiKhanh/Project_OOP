@@ -20,7 +20,7 @@ public class HelpMethods {
         if(x < 0 || x >= maxTiles)
             return true;
         if(y < 0 || y >= Game.GAME_HEIGHT)
-            return true;
+            return false;
 
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
@@ -69,4 +69,15 @@ public class HelpMethods {
         return isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
     }
 
+    public static boolean playerCollisionAboveEnemies(Rectangle2D.Float playerHitbox , Rectangle2D.Float enemyHitbox)
+    {
+
+        if (playerHitbox.intersects(enemyHitbox)) {
+
+            if (playerHitbox.y + playerHitbox.height <= enemyHitbox.y + 5) { // Small tolerance
+                return true;
+            }
+        }
+        return false;
+    }
 }

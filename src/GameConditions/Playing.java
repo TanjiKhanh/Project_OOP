@@ -3,12 +3,18 @@ package GameConditions;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import entities.EnemyManager;
 import entities.Player;
+import entities.Turtle;
 import levels.LevelManager;
 import main.Game;
+import static utilz.HelpMethods.*;
 import utilz.LoadSave;
+import static utilz.Constants.PlayerConstants.*;
 import static main.Game.GAME_WIDTH;
 
 
@@ -28,16 +34,26 @@ public class Playing extends Condition implements ConditionMethods{
     private int maxTilesOffset = maxTilesLvlWidth - Game.TILES_IN_WIDTH;
     private int maxLvlOffset = maxTilesOffset * Game.TILES_SIZE;
 
+
+    private boolean gameOver = false;
+
     public Playing(Game game){
         super(game);
         initClasses();
     }
 
+
+    private void resetAll()
+    {
+        gameOver = false;
+        player.resetAll();
+        enemyManager.resetAllEnermy();
+    }
     private void initClasses() {
         levelManager = new LevelManager(game);
-        player = new Player(200, 200, (int) (18 * Game.SCALE), (int) (34 * Game.SCALE));
-        player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         enemyManager = new EnemyManager();
+        player = new Player(200, 200, (int) ( SMALL_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (SMALL_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this);
+        player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
     }
 
     private void levelUpdate() {
@@ -60,11 +76,14 @@ public class Playing extends Condition implements ConditionMethods{
 
     @Override
     public void update() {
+
         levelManager.update();
         player.update();
         levelUpdate();
         enemyManager.update(levelManager.getCurrentLevel().getLevelData());
     }
+
+
 
     @Override
     public void draw(Graphics g) {
@@ -125,5 +144,9 @@ public class Playing extends Condition implements ConditionMethods{
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }
