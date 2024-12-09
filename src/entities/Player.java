@@ -10,7 +10,6 @@ import main.Game;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.Constants.EnemyConstants;
 
-import main.GamePanel;
 import utilz.LoadSave;
 
 import static utilz.HelpMethods.*;
@@ -171,7 +170,7 @@ public class Player extends Entity {
             if(playerCollisionAboveEnemies(hitbox , turtle.getHitbox() ))
             {
                 //set enemy animation dead
-                turtle.setEnemyState(EnemyConstants.DEAD);
+                turtle.setEnemyState(EnemyConstants.TURTLE_DEAD);
                 //Smoothly movement
                 airSpeed += 1.5f * jumpSpeed;
                 turtle.setDead(true);

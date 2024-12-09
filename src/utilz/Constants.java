@@ -66,41 +66,58 @@ public class Constants {
     // enemyConstants
     public static class EnemyConstants {
         public static final int TURTLE = 0;
+        public static final int MUSHROOM = 102;
 
-        public static final int IDLE = 13;
-        public static final int RUNNING  = 14;
-        public static final int ATTACK = 2;
-        public static final int HIT = 1;
-        public static final int DEAD = 17;
+        public static final int TURTLE_IDLE = 13;
+        public static final int TURTLE_RUNNING = 14;
+        public static final int TURTLE_DEAD = 17;
+
+        public static final int MUSHROOM_RUNNING = 1;
+        public static final int MUSHROOM_DEAD = 0;
 
         public static final int TURTLE_WIDTH_DEFAULT = 20;
         public static final int TURTLE_HEIGHT_DEFAULT = 29;
+        public static final int MUSHROOM_WIDTH_DEFAULT = 19;
+        public static final int MUSHROOM_HEIGHT_DEFAULT = 19;
+
 
         public static final int TURTLE_WIDTH = (int) (TURTLE_WIDTH_DEFAULT * Game.SCALE);
         public static final int TURTLE_HEIGHT = (int) (TURTLE_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int MUSHROOM_WIDTH = (int) (MUSHROOM_WIDTH_DEFAULT * Game.SCALE);
+        public static final int MUSHROOM_HEIGHT = (int) (MUSHROOM_HEIGHT_DEFAULT * Game.SCALE);
 
         public static final int TURTLE_DRAWOFFSET_X = (int) (6 * Game.SCALE);
         public static final int TURTLE_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
+        public static final int MUSHROOM_DRAWOFFSET_X = (int) (6 * Game.SCALE);
+        public static final int MUSHROOM_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
 
         public static int GetSpriteAmount(int enemy_type, int enemy_state) {
             switch (enemy_type) {
                 case TURTLE:
                     switch (enemy_state) {
-                        case IDLE:
+                        case TURTLE_IDLE:
                             return 0;
-                        case RUNNING:
+                        case TURTLE_RUNNING:
                             return 2;
-                        case ATTACK:
-                            return 7;
-                        case HIT:
-                            return 4;
-                        case DEAD:
+                        case TURTLE_DEAD:
                             return 0;
                         default:
                             return 1;
                     }
+                case MUSHROOM:
+                    switch (enemy_state) {
+//                        case MUSHROOM_IDLE:
+//                            return 0;
+                        case MUSHROOM_RUNNING:
+                            return 2;
+                        case MUSHROOM_DEAD:
+                            return 0;
+                    }
             }
             return 0;
         }
+
+
+
     }
 }

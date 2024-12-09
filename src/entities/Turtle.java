@@ -3,10 +3,8 @@ package entities;
 import static utilz.Constants.EnemyConstants.*;
 
 import main.Game;
-import utilz.LoadSave;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 
 public class Turtle extends Enemy{
@@ -32,10 +30,10 @@ public class Turtle extends Enemy{
             updateInAir(lvlData);
         else
             switch (enemyState) {
-                case IDLE:
-                    enemyState = RUNNING;
+                case TURTLE_IDLE:
+                    enemyState = TURTLE_RUNNING;
                     break;
-                case RUNNING:
+                case TURTLE_RUNNING:
                     Move(lvlData);
                     break;
             }
