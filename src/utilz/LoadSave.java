@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+
+import entities.Mushroom;
 import entities.Turtle;
 import main.Game;
 
@@ -50,6 +52,19 @@ public class LoadSave {
 				int value = color.getGreen();
 				if (value == TURTLE)
 					list.add(new Turtle(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
+			}
+		return list;
+	}
+
+	public static ArrayList<Mushroom> GetMushroom() {
+		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		ArrayList<Mushroom> list = new ArrayList<>();
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if(value == MUSHROOM)
+					list.add(new Mushroom(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
 			}
 		return list;
 	}
