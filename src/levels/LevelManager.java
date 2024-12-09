@@ -21,7 +21,7 @@ public class LevelManager {
         levelOne = new Level(LoadSave.GetLevelData());
         this.game = game;
 
-        smallCloudsPos = new int[8];
+        smallCloudsPos = new int[16];
         for (int i = 0; i < smallCloudsPos.length; i++)
             smallCloudsPos[i] = (int) (90 * Game.SCALE) + random.nextInt((int) (100 * Game.SCALE));
     }
@@ -54,7 +54,7 @@ public class LevelManager {
         g.drawImage(backgroundImage, 0, 0, Game.GAME_WIDTH , Game.GAME_HEIGHT , null);
 
         //Draw big cloud
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
                 g.drawImage(bigCloudImage , i * 448 -  lvlOffset , 360 , 448 , 101, null );
         }
 

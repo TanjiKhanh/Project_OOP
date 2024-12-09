@@ -66,7 +66,7 @@ public class HelpMethods {
 
     }
     public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
-        return isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+        return isSolid(hitbox.x + xSpeed , hitbox.y + hitbox.height + 1, lvlData);
     }
 
     public static boolean playerCollisionAboveEnemies(Rectangle2D.Float playerHitbox , Rectangle2D.Float enemyHitbox)

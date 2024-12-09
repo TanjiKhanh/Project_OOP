@@ -29,7 +29,7 @@ public class EnemyManager {
     private void addEnemies() {
         turtles = LoadSave.GetTurtle();
         for(Turtle turtle : turtles){
-            turtle.setEnemyState(TURTLE_IDLE);
+            turtle.setEnemyState(TURTLE_RUNNING);
         }
         mushrooms = LoadSave.GetMushroom();
         for(Mushroom m : mushrooms)
