@@ -66,10 +66,9 @@ public class Constants {
     // enemyConstants
     public static class EnemyConstants {
         public static final int TURTLE = 0;
-        public static final int MUSHROOM = 102;
+        public static final int MUSHROOM = 1;
 
-        public static final int TURTLE_IDLE = 13;
-        public static final int TURTLE_RUNNING = 14;
+        public static final int TURTLE_RUNNING = 13;
         public static final int TURTLE_DEAD = 17;
 
         public static final int MUSHROOM_RUNNING = 1;
@@ -95,10 +94,8 @@ public class Constants {
             switch (enemy_type) {
                 case TURTLE:
                     switch (enemy_state) {
-                        case TURTLE_IDLE:
-                            return 0;
                         case TURTLE_RUNNING:
-                            return 2;
+                            return 3;
                         case TURTLE_DEAD:
                             return 0;
                         default:

@@ -16,36 +16,11 @@ public class Turtle extends Enemy{
 
     }
 
-    public void update(int[][] lvlData) {
-        updateMove(lvlData);
-        updateAnimationTick();
-    }
 
 
-    private void updateMove(int[][] lvlData) {
-        if (firstUpdate) {
-            firstUpdateCheck(lvlData);
-        }
-        if (inAir)
-            updateInAir(lvlData);
-        else
-            switch (enemyState) {
-                case TURTLE_IDLE:
-                    enemyState = TURTLE_RUNNING;
-                    break;
-                case TURTLE_RUNNING:
-                    Move(lvlData);
-                    break;
-            }
-    }
 
-    public int getxOffset() {
-        return xOffset;
-    }
 
-    public int getyOffset() {
-        return yOffset;
-    }
+
 
     @Override
     public Rectangle2D.Float getHitbox() {

@@ -69,9 +69,15 @@ public abstract class Enemy extends Entity{
         }
     }
 
-    public void update(int[][] levelData) {
+    public void update(int[][] levelData)
+    {
+        if(isDead)
+        {
+            updateAnimationTick();
+            return;
+        }
+        updateMove(levelData);
         updateAnimationTick();
-
     }
 
     private void changeWalkDir() {
@@ -82,9 +88,21 @@ public abstract class Enemy extends Entity{
 
     }
 
-    public void setEnemyType(int enemyType) {
-        this.enemyType = enemyType;
+    private void updateMove(int[][] lvlData) {
+        if (firstUpdate) {
+            firstUpdateCheck(lvlData);
+        }
+        if (inAir)
+            updateInAir(lvlData);
+        else
+            Move(lvlData);
     }
+    private void resetAniTick() {
+
+        aniTick = 0;
+        aniIndex = 0;
+    }
+
 
     public void setEnemyState(int enemyState) {
         this.enemyState = enemyState;
@@ -112,7 +130,7 @@ public abstract class Enemy extends Entity{
         hitbox.y = y;
         firstUpdate = true;
         inAir = false;
-        enemyState = TURTLE_IDLE;
+//        enemyState = TURTLE_IDLE;
         fallSpeed = 0;
         isDead = false;
     }
