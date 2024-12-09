@@ -8,7 +8,7 @@ import static utilz.HelpMethods.*;
 
 
 public abstract class Enemy extends Entity{
-    protected int aniIndex, enemyState = IDLE, enemyType;
+    protected int aniIndex, enemyState, enemyType;
     private int aniTick, aniSpeed = 25;
     protected boolean firstUpdate = true;
     protected boolean inAir = false;
@@ -64,9 +64,8 @@ public abstract class Enemy extends Entity{
         if(aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if(aniIndex >= GetSpriteAmount(TURTLE, enemyState)) {
+            if(aniIndex >= GetSpriteAmount(enemyType, enemyState))
                 aniIndex = 0;
-            }
         }
     }
 
@@ -83,9 +82,14 @@ public abstract class Enemy extends Entity{
 
     }
 
+    public void setEnemyType(int enemyType) {
+        this.enemyType = enemyType;
+    }
+
     public void setEnemyState(int enemyState) {
         this.enemyState = enemyState;
     }
+
 
     public int getAniIndex() {
         return aniIndex;
@@ -108,7 +112,7 @@ public abstract class Enemy extends Entity{
         hitbox.y = y;
         firstUpdate = true;
         inAir = false;
-        enemyState = IDLE;
+        enemyState = TURTLE_IDLE;
         fallSpeed = 0;
         isDead = false;
     }
