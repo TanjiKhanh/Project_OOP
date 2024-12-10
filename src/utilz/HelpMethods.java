@@ -65,9 +65,29 @@ public class HelpMethods {
         return true;
 
     }
-    public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
-        return isSolid(hitbox.x + xSpeed , hitbox.y + hitbox.height + 1, lvlData);
+    public static boolean isOnFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
+        // Check if it's on the floor
+        boolean onFloor = false;
+        if (xSpeed > 0) {
+            onFloor = isSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
+        } else {
+            onFloor = isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+        }
+
+        return onFloor;
     }
+    public static boolean nextToWall(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
+
+        // Check if it's next to a wall
+        boolean nextToWall = false;
+        if (xSpeed > 0) {
+            nextToWall = isSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y, lvlData); // Check right side for a wall
+        } else if (xSpeed < 0) {
+            nextToWall = isSolid(hitbox.x + xSpeed, hitbox.y, lvlData); // Check left side for a wall
+        }
+        return  nextToWall;
+    }
+
 
     public static boolean playerCollisionAboveEnemies(Rectangle2D.Float playerHitbox , Rectangle2D.Float enemyHitbox)
     {

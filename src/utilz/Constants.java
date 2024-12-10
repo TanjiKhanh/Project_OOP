@@ -125,4 +125,15 @@ public class Constants {
         public static final int BOX_SIDES_DEFAULT = 64;
 
     }
+
+    public static class PineConstants
+    {
+        public static final int PINE = 4;
+        public static final int PINE_SIDES_DEFAULT = 32;
+        public static final int PINE_SIDES_WIDTH = ( int) (PINE_SIDES_DEFAULT * Game.SCALE * 1.5f);
+        public static final int PINE_SIDES_HEIGHT =  ( int) (PINE_SIDES_DEFAULT * Game.SCALE * 2);
+
+
+
+    }
 }

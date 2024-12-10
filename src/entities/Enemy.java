@@ -52,9 +52,11 @@ public abstract class Enemy extends Entity{
         else
             xSpeed = walkSpeed;
         if (canMoveHere(hitbox.x, hitbox.y, hitbox.width, hitbox.height, lvlData))
-            if (!isFloor(hitbox, xSpeed, lvlData) ){
+            if (!isOnFloor(hitbox, xSpeed, lvlData) ){
                 changeWalkDir();
             }
+            else if(nextToWall(hitbox, xSpeed, lvlData))
+                changeWalkDir();
             else
                 hitbox.x += xSpeed;
 

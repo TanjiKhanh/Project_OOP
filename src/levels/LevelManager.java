@@ -9,6 +9,7 @@ import entities.Box;
 import main.Game;
 import utilz.LoadSave;
 
+import static utilz.Constants.PineConstants.PINE_SIDES_DEFAULT;
 import static utilz.LoadSave.GetBox;
 
 public class LevelManager {
@@ -46,13 +47,17 @@ public class LevelManager {
 
         //Level background 2D array
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
-        levelSprite = new BufferedImage[48];
+        levelSprite = new BufferedImage[50];
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 12; i++) {
                 int index = j * 12 + i;
                 levelSprite[index] = img.getSubimage(i * 32, j * 32, 32, 32);
             }
         }
+        BufferedImage pineImg = LoadSave.GetSpriteAtlas(LoadSave.PINE_IMAGE);
+        levelSprite[48] = pineImg.getSubimage(0 , 129 , PINE_SIDES_DEFAULT  , PINE_SIDES_DEFAULT /2);
+        levelSprite[49] = pineImg.getSubimage(0 , 145 , PINE_SIDES_DEFAULT , PINE_SIDES_DEFAULT / 2);
+
     }
 
 
@@ -79,9 +84,7 @@ public class LevelManager {
             }
         }
 
-        //Draw box
-        for(Box box : boxes)
-            box.draw(g , lvlOffset);
+
     }
 
     public void update() {
