@@ -116,5 +116,13 @@ public class Constants {
 
 
 
+
+    }
+    //Box constants
+    public static class BoxConstannts
+    {
+        public static final int BOX = 3;
+        public static final int BOX_SIDES_DEFAULT = 64;
+
     }
 }

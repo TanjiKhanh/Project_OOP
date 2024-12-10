@@ -11,7 +11,7 @@ public class Turtle extends Enemy{
     private int xOffset = Game.TILES_SIZE;
     private int yOffset = Game.TILES_SIZE;
     public Turtle(float x, float y) {
-        super(x, y, TURTLE_WIDTH, TURTLE_HEIGHT, TURTLE);
+        super(x, y, TURTLE_WIDTH, TURTLE_HEIGHT, TURTLE , TURTLE_RUNNING);
         initHitbox(x  , y   , (int) (20 * Game.SCALE)  , (int) (28 * Game.SCALE) );
 
     }

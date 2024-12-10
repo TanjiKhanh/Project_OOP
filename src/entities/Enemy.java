@@ -18,9 +18,10 @@ public abstract class Enemy extends Entity{
     protected int walkDir = LEFT;
     protected boolean isDead = false;
 
-    public Enemy(float x, float y, int width, int height, int enemyType) {
+    public Enemy(float x, float y, int width, int height, int enemyType ,int enemyState) {
         super(x, y, width, height);
         this.enemyType = enemyType;
+        this.enemyState = enemyState;
         initHitbox(x, y, width, height);
     }
 
