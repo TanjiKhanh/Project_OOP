@@ -238,7 +238,7 @@ public class Player extends Entity {
                     return;
                 }
             } else {
-                hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox , airSpeed);
+                hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox , airSpeed );
 
                 //hit the floor reset air speed
                 if (airSpeed > 0)

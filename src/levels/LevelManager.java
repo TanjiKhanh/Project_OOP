@@ -55,7 +55,7 @@ public class LevelManager {
             }
         }
         BufferedImage pineImg = LoadSave.GetSpriteAtlas(LoadSave.PINE_IMAGE);
-        levelSprite[48] = pineImg.getSubimage(0 , 129 , PINE_SIDES_DEFAULT  , PINE_SIDES_DEFAULT /2);
+        levelSprite[48] = pineImg.getSubimage(0 , 129 , PINE_SIDES_DEFAULT  , PINE_SIDES_DEFAULT - 1);
         levelSprite[49] = pineImg.getSubimage(0 , 145 , PINE_SIDES_DEFAULT , PINE_SIDES_DEFAULT / 2);
 
     }
