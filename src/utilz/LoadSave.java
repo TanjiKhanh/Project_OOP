@@ -14,6 +14,7 @@ import main.Game;
 
 import static utilz.Constants.BoxConstannts.BOX;
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.PineConstants.PINE;
 
 public class LoadSave {
 	public static final String CHARACTERS_ATLAS = "characters.gif";
@@ -25,6 +26,7 @@ public class LoadSave {
 	public static final String BIG_CLOUD_IMAGE = "big_clouds.png";
 	public static final String SMALL_CLOUD_IMAGE = "small_clouds.png";
 	public static final String BOX_IMAGE = "7cQjJM.png";
+	public static final String PINE_IMAGE = "tiles.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -84,6 +86,7 @@ public class LoadSave {
 		return boxes;
 	}
 
+
 	public static int[][] GetLevelData() {
 		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
 		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
@@ -92,7 +95,7 @@ public class LoadSave {
 			for (int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getRed();
-				if (value >= 48)
+				if (value >= 50)
 					value = 0;
 				lvlData[j][i] = value;
 			}

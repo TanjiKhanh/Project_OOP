@@ -204,6 +204,8 @@ public class Player extends Entity {
         }
     }
 
+
+
     private void setPos() {
         running = false;
 
