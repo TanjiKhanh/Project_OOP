@@ -12,8 +12,10 @@ public class EnemyManager {
     // private Playing playing; // chua co class
     private BufferedImage [] turtleArr;
     private BufferedImage [] mushroomArr;
+    private BufferedImage [] jokerArr;
     private ArrayList<Turtle> turtles = new ArrayList<>();
     private ArrayList<Mushroom> mushrooms = new ArrayList<>();
+    private ArrayList<Joker> jokers = new ArrayList<>();
     private GamePanel gamePanel;
     private int aniTick, aniSpeed = 25;
 
@@ -28,7 +30,20 @@ public class EnemyManager {
 
     private void addEnemies() {
         turtles = LoadSave.GetTurtle();
+        for(Turtle turtle : turtles){
+            turtle.setEnemyState(TURTLE_RUNNING);
+        }
+
         mushrooms = LoadSave.GetMushroom();
+        for(Mushroom m : mushrooms)
+        {
+            m.setEnemyState(MUSHROOM_RUNNING);
+        }
+
+        jokers = LoadSave.GetJoker();
+        for(Joker j : jokers) {
+            j.setEnemyState(JOKER_IDLE);
+        }
 
     }
 
@@ -40,11 +55,16 @@ public class EnemyManager {
         for (Mushroom m : mushrooms) {
             m.update(lvlData);
         }
+
+        for (Joker j : jokers) {
+            j.update(lvlData);
+        }
     }
 
     public void draw(Graphics g , int lvlOffset) {
         drawTurtle(g , lvlOffset);
         drawMushroom(g, lvlOffset);
+        drawJoker(g, lvlOffset);
     }
 
     private void drawTurtle(Graphics g , int lvlOffset) {
@@ -56,7 +76,13 @@ public class EnemyManager {
     private void drawMushroom(Graphics g , int lvlOffset) {
         for(Mushroom mushroom : mushrooms) {
             g.drawImage(mushroomArr[mushroom.getEnemyState() + mushroom.getAniIndex()], (int) mushroom.hitbox.x - lvlOffset, (int) mushroom.hitbox.y  , MUSHROOM_WIDTH, MUSHROOM_HEIGHT, null);
-            mushroom.drawHitBox(g);
+        }
+    }
+
+    private void drawJoker(Graphics g , int lvlOffset) {
+        for(Joker joker : jokers) {
+            g.drawImage(jokerArr[joker.getEnemyState() + joker.getAniIndex()], (int) joker.hitbox.x - lvlOffset, (int) joker.hitbox.y, JOKER_WIDTH, JOKER_HEIGHT, null);
+            joker.drawHitBox(g);
         }
     }
 
@@ -71,12 +97,20 @@ public class EnemyManager {
         for (int i = 0; i < mushroomArr.length; i++) {
             mushroomArr[i] = temp1.getSubimage(276 + i * MUSHROOM_WIDTH_DEFAULT, 185, MUSHROOM_WIDTH_DEFAULT, MUSHROOM_HEIGHT_DEFAULT);
         }
+
+        jokerArr = new BufferedImage[2];
+        BufferedImage temp2 = LoadSave.GetSpriteAtlas(LoadSave.CHARACTERS_ATLAS);
+        for (int i = 0; i < jokerArr.length; i++) {
+            jokerArr[i] = temp2.getSubimage(219 + i * JOKER_WIDTH_DEFAULT, 287, JOKER_WIDTH_DEFAULT, JOKER_HEIGHT_DEFAULT);
+        }
     }
 
     public ArrayList<Turtle> getTurtles() {
         return turtles;
     }
     public ArrayList<Mushroom> getMushrooms() { return mushrooms; }
+
+    public ArrayList<Joker> getJokers() { return jokers; }
 
     public void resetAllEnermy() {
         for(Turtle i : turtles) {

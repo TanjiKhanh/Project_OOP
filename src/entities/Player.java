@@ -162,14 +162,11 @@ public class Player extends Entity {
     {
         //Turtle Collision
         ArrayList<Turtle> turtles = enemyManager.getTurtles();
-        for( int i = 0 ; i < turtles.size() ; i++)
-        {
-            Turtle turtle = turtles.get(i);
-            if(turtle.isDead())
+        for (Turtle turtle : turtles) {
+            if (turtle.isDead())
                 continue;
             //if collision above the turtles frames
-            if(playerCollisionAboveEnemies(hitbox , turtle.getHitbox() ))
-            {
+            if (playerCollisionAboveEnemies(hitbox, turtle.getHitbox())) {
                 //set enemy animation dead
                 turtle.setEnemyState(EnemyConstants.TURTLE_DEAD);
                 //Smoothly movement
@@ -177,21 +174,18 @@ public class Player extends Entity {
                 turtle.setDead(true);
             }
             //Collsion other direction
-            else if( hitbox.intersects(turtle.getHitbox()))
+            else if (hitbox.intersects(turtle.getHitbox()))
                 deadMovement();
         }
 
 
         //Mushroom Collision
         ArrayList<Mushroom> mushrooms = enemyManager.getMushrooms();
-        for( int i = 0 ; i < mushrooms.size() ; i++)
-        {
-            Mushroom mushroom = mushrooms.get(i);
-            if(mushroom.isDead())
+        for (Mushroom mushroom : mushrooms) {
+            if (mushroom.isDead())
                 continue;
             //if collision above the turtles frames
-            if(playerCollisionAboveEnemies(hitbox , mushroom.getHitbox() ))
-            {
+            if (playerCollisionAboveEnemies(hitbox, mushroom.getHitbox())) {
                 //set enemy animation dead
                 mushroom.setEnemyState(EnemyConstants.MUSHROOM_DEAD);
                 //Smoothly movement
@@ -199,7 +193,13 @@ public class Player extends Entity {
                 mushroom.setDead(true);
             }
             //Collsion other direction
-            else if( hitbox.intersects(mushroom.getHitbox()))
+            else if (hitbox.intersects(mushroom.getHitbox()))
+                deadMovement();
+        }
+
+        ArrayList<Joker> jokers = enemyManager.getJokers();
+        for (Joker joker : jokers) {
+            if (hitbox.intersects(joker.getHitbox()))
                 deadMovement();
         }
     }

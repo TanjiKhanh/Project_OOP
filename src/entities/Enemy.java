@@ -9,7 +9,7 @@ import static utilz.HelpMethods.*;
 
 public abstract class Enemy extends Entity{
     protected int aniIndex, enemyState, enemyType;
-    private int aniTick, aniSpeed = 25;
+    private int aniTick, aniSpeed = 50;
     protected boolean firstUpdate = true;
     protected boolean inAir = false;
     protected float fallSpeed = 0;
@@ -72,6 +72,8 @@ public abstract class Enemy extends Entity{
         }
     }
 
+    public abstract void updateMove(int[][] lvlData);
+
     public void update(int[][] levelData)
     {
         if(isDead)
@@ -91,15 +93,6 @@ public abstract class Enemy extends Entity{
 
     }
 
-    private void updateMove(int[][] lvlData) {
-        if (firstUpdate) {
-            firstUpdateCheck(lvlData);
-        }
-        if (inAir)
-            updateInAir(lvlData);
-        else
-            Move(lvlData);
-    }
     private void resetAniTick() {
 
         aniTick = 0;

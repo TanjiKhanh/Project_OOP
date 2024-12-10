@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import entities.Box;
 import entities.Mushroom;
 import entities.Turtle;
+import entities.Joker;
 import main.Game;
 
 import static utilz.Constants.BoxConstannts.BOX;
@@ -69,6 +70,19 @@ public class LoadSave {
 				int value = color.getGreen();
 				if(value == MUSHROOM)
 					list.add(new Mushroom(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
+			}
+		return list;
+	}
+
+	public static ArrayList<Joker> GetJoker() {
+		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		ArrayList<Joker> list = new ArrayList<>();
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if(value == JOKER)
+					list.add(new Joker(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
 			}
 		return list;
 	}
