@@ -7,10 +7,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+import entities.Box;
 import entities.Mushroom;
 import entities.Turtle;
 import main.Game;
 
+import static utilz.Constants.BoxConstannts.BOX;
 import static utilz.Constants.EnemyConstants.*;
 
 public class LoadSave {
@@ -22,7 +24,7 @@ public class LoadSave {
 	public static final String BACKGROUND_IMAGE = "playing_bg_img.png";
 	public static final String BIG_CLOUD_IMAGE = "big_clouds.png";
 	public static final String SMALL_CLOUD_IMAGE = "small_clouds.png";
-	public static final String TURTLES = "crabby_sprite.png";
+	public static final String BOX_IMAGE = "7cQjJM.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -67,6 +69,19 @@ public class LoadSave {
 					list.add(new Mushroom(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
 			}
 		return list;
+	}
+
+	public static ArrayList<Box> GetBox() {
+		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		ArrayList<Box> boxes = new ArrayList<>();
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if (value == BOX)
+					boxes.add(new Box(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
+			}
+		return boxes;
 	}
 
 	public static int[][] GetLevelData() {

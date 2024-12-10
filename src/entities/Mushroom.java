@@ -7,10 +7,9 @@ import java.awt.geom.Rectangle2D;
 import static utilz.Constants.EnemyConstants.*;
 
 public class Mushroom extends Enemy {
-    private int xOffset = Game.TILES_SIZE;
-    private int yOffset = Game.TILES_SIZE;
+
     public Mushroom(float x, float y) {
-        super(x, y, MUSHROOM_WIDTH, MUSHROOM_HEIGHT, MUSHROOM);
+        super(x, y, MUSHROOM_WIDTH, MUSHROOM_HEIGHT, MUSHROOM , MUSHROOM_RUNNING);
         initHitbox(x, y, (int) (19 * Game.SCALE), (int) (19 * Game.SCALE));
     }
 

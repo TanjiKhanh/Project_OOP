@@ -2,10 +2,14 @@ package levels;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 
+import entities.Box;
 import main.Game;
 import utilz.LoadSave;
+
+import static utilz.LoadSave.GetBox;
 
 public class LevelManager {
 
@@ -15,11 +19,14 @@ public class LevelManager {
     private BufferedImage backgroundImage , smallCloudImage , bigCloudImage;
     private int [] smallCloudsPos;
     private Random random = new Random();
+    private ArrayList<Box> boxes;
 
     public LevelManager(Game game) {
         importOutsideSprites();
         levelOne = new Level(LoadSave.GetLevelData());
         this.game = game;
+
+        boxes = GetBox();
 
         smallCloudsPos = new int[16];
         for (int i = 0; i < smallCloudsPos.length; i++)
@@ -50,6 +57,8 @@ public class LevelManager {
 
 
     public void draw(Graphics g , int lvlOffset) {
+
+
         //Draw background image
         g.drawImage(backgroundImage, 0, 0, Game.GAME_WIDTH , Game.GAME_HEIGHT , null);
 
@@ -69,6 +78,10 @@ public class LevelManager {
                 g.drawImage(levelSprite[index], Game.TILES_SIZE * i - lvlOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
             }
         }
+
+        //Draw box
+        for(Box box : boxes)
+            box.draw(g , lvlOffset);
     }
 
     public void update() {
