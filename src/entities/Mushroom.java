@@ -14,6 +14,16 @@ public class Mushroom extends Enemy {
     }
 
     @Override
+    public void updateMove(int[][] lvlData) {
+        if (firstUpdate) {
+            firstUpdateCheck(lvlData);
+        }
+        if (inAir)
+            updateInAir(lvlData);
+        else
+            Move(lvlData);
+    }
+    @Override
     public Rectangle2D.Float getHitbox() { return super.getHitbox(); }
 
     @Override

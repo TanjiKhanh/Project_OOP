@@ -67,6 +67,7 @@ public class Constants {
     public static class EnemyConstants {
         public static final int TURTLE = 0;
         public static final int MUSHROOM = 1;
+        public static final int JOKER = 2;
 
         public static final int TURTLE_RUNNING = 13;
         public static final int TURTLE_DEAD = 17;
@@ -74,21 +75,29 @@ public class Constants {
         public static final int MUSHROOM_RUNNING = 1;
         public static final int MUSHROOM_DEAD = 0;
 
+        public static final int JOKER_IDLE = 0;
+
         public static final int TURTLE_WIDTH_DEFAULT = 20;
         public static final int TURTLE_HEIGHT_DEFAULT = 29;
         public static final int MUSHROOM_WIDTH_DEFAULT = 19;
         public static final int MUSHROOM_HEIGHT_DEFAULT = 19;
+        public static final int JOKER_WIDTH_DEFAULT = 17;
+        public static final int JOKER_HEIGHT_DEFAULT = 24;
 
 
         public static final int TURTLE_WIDTH = (int) (TURTLE_WIDTH_DEFAULT * Game.SCALE);
         public static final int TURTLE_HEIGHT = (int) (TURTLE_HEIGHT_DEFAULT * Game.SCALE);
         public static final int MUSHROOM_WIDTH = (int) (MUSHROOM_WIDTH_DEFAULT * Game.SCALE);
         public static final int MUSHROOM_HEIGHT = (int) (MUSHROOM_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int JOKER_WIDTH = (int) (JOKER_WIDTH_DEFAULT * Game.SCALE);
+        public static final int JOKER_HEIGHT = (int) (JOKER_HEIGHT_DEFAULT * Game.SCALE);
 
         public static final int TURTLE_DRAWOFFSET_X = (int) (6 * Game.SCALE);
         public static final int TURTLE_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
         public static final int MUSHROOM_DRAWOFFSET_X = (int) (6 * Game.SCALE);
         public static final int MUSHROOM_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
+        public static final int JOKER_DRAWOFFSET_X = (int) (6 * Game.SCALE);
+        public static final int JOKER_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
 
         public static int GetSpriteAmount(int enemy_type, int enemy_state) {
             switch (enemy_type) {
@@ -103,12 +112,15 @@ public class Constants {
                     }
                 case MUSHROOM:
                     switch (enemy_state) {
-//                        case MUSHROOM_IDLE:
-//                            return 0;
                         case MUSHROOM_RUNNING:
                             return 2;
                         case MUSHROOM_DEAD:
                             return 0;
+                    }
+                case JOKER:
+                    switch (enemy_state) {
+                        case JOKER_IDLE:
+                            return 2;
                     }
             }
             return 0;
@@ -123,7 +135,6 @@ public class Constants {
     {
         public static final int BOX = 3;
         public static final int BOX_SIDES_DEFAULT = 64;
-
     }
 
     public static class PineConstants
@@ -132,8 +143,5 @@ public class Constants {
         public static final int PINE_SIDES_DEFAULT = 32;
         public static final int PINE_SIDES_WIDTH = ( int) (PINE_SIDES_DEFAULT * Game.SCALE * 1.5f);
         public static final int PINE_SIDES_HEIGHT =  ( int) (PINE_SIDES_DEFAULT * Game.SCALE * 2);
-
-
-
     }
 }
