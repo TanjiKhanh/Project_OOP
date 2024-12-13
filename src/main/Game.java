@@ -2,6 +2,7 @@ package main;
 
 import entities.Player;
 import levels.LevelManager;
+import ui.SoundOption;
 
 import java.awt.*;
 
@@ -16,6 +17,8 @@ public class Game implements Runnable {
     private Thread gameThread;
 	private Playing playing;
 	private Menu menu;
+	private gameOption gameOption;
+	private SoundOption soundOption;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 	public final static int TILES_DEFAULT_SIZE = 32;
@@ -38,8 +41,10 @@ public class Game implements Runnable {
 
 	private void initialClasses()
 	{
+		soundOption = new SoundOption();
 		menu = new Menu(this);
 		playing = new Playing(this);
+		gameOption = new gameOption(this);
 	}
     
     private void startGameLoop()
@@ -56,6 +61,8 @@ public class Game implements Runnable {
 				playing.update();
 				break;
 			case OPTIONS:
+				gameOption.update();
+				break;
 			case QUIT:
 			default:
 				System.exit(0);
@@ -71,6 +78,9 @@ public class Game implements Runnable {
 			break;
 		case PLAYING:
 			playing.draw(g);
+			break;
+		case OPTIONS:
+			gameOption.draw(g);
 			break;
 		default:
 			break;
@@ -136,5 +146,13 @@ public class Game implements Runnable {
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
+	}
+
+	public SoundOption getSoundOption(){
+		return soundOption;
+	}
+
+	public gameOption getGameOption() {
+		return gameOption;
 	}
 }

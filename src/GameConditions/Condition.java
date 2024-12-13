@@ -16,7 +16,7 @@ public class Condition {
         return mb.getButtonsLayout().contains(e.getX(), e.getY());
     }
 
-    public Game getgame(){
+    public Game getGame(){
         return game;
     }
 

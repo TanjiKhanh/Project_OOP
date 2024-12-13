@@ -22,6 +22,9 @@ public class MouseInput implements MouseListener , MouseMotionListener {
             case PLAYING:
                 gamePanel.getGame().getPlaying().mouseMoved(e);
                 break;
+            case OPTIONS:
+                gamePanel.getGame().getGameOption().mouseMoved(e);
+                break;
             default:
                 break;
         }
@@ -47,6 +50,9 @@ public class MouseInput implements MouseListener , MouseMotionListener {
             case PLAYING:
                 gamePanel.getGame().getPlaying().mousePressed(e);
                 break;
+            case OPTIONS:
+                gamePanel.getGame().getGameOption().mousePressed(e);
+                break;
             default:
                 break;
         }
@@ -60,6 +66,9 @@ public class MouseInput implements MouseListener , MouseMotionListener {
                 break;
             case PLAYING:
                 gamePanel.getGame().getPlaying().mouseReleased(e);
+                break;
+            case OPTIONS:
+                gamePanel.getGame().getGameOption().mouseReleased(e);
                 break;
             default:
                 break;
@@ -78,8 +87,16 @@ public class MouseInput implements MouseListener , MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet.");
-    }
+        switch (gameConditions.condition) {
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mouseDragged(e);
+                break;
+            case OPTIONS:
+                gamePanel.getGame().getGameOption().mouseDragged(e);
+                break;
+            default:
+                break;
+        }
 
-    
+    }
 }
