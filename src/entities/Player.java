@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import GameConditions.Playing;
 import main.Game;
 
+import static utilz.Constants.EnemyConstants.GetDeadAnimation;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.Constants.EnemyConstants;
 
@@ -160,48 +161,56 @@ public class Player extends Entity {
     //Handle collision player with enemy
     private void collisionEnemy()
     {
-        //Turtle Collision
-        ArrayList<Turtle> turtles = enemyManager.getTurtles();
-        for (Turtle turtle : turtles) {
-            if (turtle.isDead())
-                continue;
+        //Enemies Collision
+        ArrayList<Enemy> enemies = enemyManager.getEnemies();
+        for (Enemy enemy : enemies) {
+            //Handle if enemy dead player collision does not dead
+            if (enemy instanceof Turtle) {
+                Turtle turtle = (Turtle) enemy;
+
+                // Handle "dead but not yet kicked" turtles
+                if (turtle.isDead() && !turtle.isKicked()) {
+                    if (turtle.isReadyToBeKicked() && hitbox.intersects(turtle.getHitbox())) {
+                        turtle.setKicked(true, playerAction);
+                    }
+                    continue; // Skip further checks for this turtle
+                }
+                // If the turtle is dead and spinning, handle collision with player
+                else if (turtle.isDead() && turtle.isKicked()) {
+
+                    // Prevent player from dying when colliding with a dead, spinning turtle
+                    if (hitbox.intersects(turtle.getHitbox())) {
+                        deadMovement();
+                    }
+                    continue; // Skip the regular dead logic as we've already handled it
+                }
+
+            }
+
+            // Regular collision handling
+            if (enemy.isDead()) continue;
             //if collision above the turtles frames
-            if (playerCollisionAboveEnemies(hitbox, turtle.getHitbox())) {
+            if (playerCollisionAboveEnemies(hitbox, enemy.getHitbox())) {
+                int deadEnemyState = GetDeadAnimation(enemy.enemyType);
                 //set enemy animation dead
-                turtle.setEnemyState(EnemyConstants.TURTLE_DEAD);
+                enemy.setEnemyState(deadEnemyState);
                 //Smoothly movement
                 airSpeed += 1.5f * jumpSpeed;
-                turtle.setDead(true);
+                enemy.setDead(true);
+
+                // If the enemy is a turtle, mark it as recently dead
+                if (enemy instanceof Turtle) {
+                    ((Turtle) enemy).setRecentlyDead(true);
+                }
             }
             //Collsion other direction
-            else if (hitbox.intersects(turtle.getHitbox()))
+            else if (hitbox.intersects(enemy.getHitbox()))
                 deadMovement();
         }
 
 
-        //Mushroom Collision
-        ArrayList<Mushroom> mushrooms = enemyManager.getMushrooms();
-        for (Mushroom mushroom : mushrooms) {
-            if (mushroom.isDead())
-                continue;
-            //if collision above the turtles frames
-            if (playerCollisionAboveEnemies(hitbox, mushroom.getHitbox())) {
-                //set enemy animation dead
-                mushroom.setEnemyState(EnemyConstants.MUSHROOM_DEAD);
-                //Smoothly movement
-                airSpeed += 1.5f * jumpSpeed;
-                mushroom.setDead(true);
-            }
-            //Collsion other direction
-            else if (hitbox.intersects(mushroom.getHitbox()))
-                deadMovement();
-        }
 
-        ArrayList<Joker> jokers = enemyManager.getJokers();
-        for (Joker joker : jokers) {
-            if (hitbox.intersects(joker.getHitbox()))
-                deadMovement();
-        }
+
     }
 
 

@@ -78,6 +78,7 @@ public abstract class Enemy extends Entity{
     {
         if(isDead)
         {
+            resetAniTick();
             updateAnimationTick();
             return;
         }
@@ -85,7 +86,7 @@ public abstract class Enemy extends Entity{
         updateAnimationTick();
     }
 
-    private void changeWalkDir() {
+    protected void changeWalkDir() {
         if (walkDir == LEFT)
             walkDir = RIGHT;
         else
@@ -93,7 +94,7 @@ public abstract class Enemy extends Entity{
 
     }
 
-    private void resetAniTick() {
+    protected void resetAniTick() {
 
         aniTick = 0;
         aniIndex = 0;
@@ -120,6 +121,7 @@ public abstract class Enemy extends Entity{
     public void setDead(boolean dead) {
         isDead = dead;
     }
+
 
     public void resetEnemy() {
         hitbox.x = x;

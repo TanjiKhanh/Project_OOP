@@ -112,6 +112,17 @@ public class Constants {
         public static final int JOKER_DRAWOFFSET_X = (int) (6 * Game.SCALE);
         public static final int JOKER_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
 
+        public static int GetDeadAnimation(int enemy_type)
+        {
+            switch (enemy_type){
+                case TURTLE:
+                    return TURTLE_DEAD;
+                case MUSHROOM:
+                    return MUSHROOM_DEAD;
+
+            }
+            return 0;
+        }
         public static int GetSpriteAmount(int enemy_type, int enemy_state) {
             switch (enemy_type) {
                 case TURTLE:
