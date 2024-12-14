@@ -3,17 +3,13 @@ package GameConditions;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 
 import entities.EnemyManager;
 import entities.Player;
-import entities.Turtle;
 import levels.LevelManager;
 import main.Game;
 import ui.PauseOverlay;
-import static utilz.HelpMethods.*;
 import utilz.LoadSave;
 import static utilz.Constants.PlayerConstants.*;
 import static main.Game.GAME_WIDTH;
@@ -150,9 +146,6 @@ public class Playing extends Condition implements ConditionMethods{
         }
     }
 
-    public Player getPlayer() {
-        return player;
-    }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;

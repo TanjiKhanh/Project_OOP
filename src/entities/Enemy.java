@@ -127,11 +127,9 @@ public abstract class Enemy extends Entity{
         inAir = false;
         fallSpeed = 0;
         isDead = false;
+        resetAniTick();
 
         switch (enemyType) {
-            case TURTLE:
-                enemyState = TURTLE_RUNNING;
-                break;
             case MUSHROOM:
                 enemyState = MUSHROOM_RUNNING;
                 break;

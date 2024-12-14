@@ -38,9 +38,10 @@ public class HelpMethods {
             int tileXPos = currentTile * Game.TILES_SIZE;
             int xOffset = (int) (Game.TILES_SIZE - hitbox.width);
             return tileXPos + xOffset - 1;
+
         } else
             // Left
-            return currentTile * Game.TILES_SIZE;
+            return currentTile * Game.TILES_SIZE + 0.5f;
     }
 
         public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed ) {

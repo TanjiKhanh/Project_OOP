@@ -3,10 +3,7 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import main.GamePanel;
-import static utilz.Constants.Direction.DOWN;
-import static utilz.Constants.Direction.LEFT;
-import static utilz.Constants.Direction.RIGHT;
-import static utilz.Constants.Direction.UP;
+
 import GameConditions.*;
 
 

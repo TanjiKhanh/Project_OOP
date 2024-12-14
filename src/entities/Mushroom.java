@@ -23,6 +23,9 @@ public class Mushroom extends Enemy {
         else
             Move(lvlData);
     }
+
+
+
     @Override
     public Rectangle2D.Float getHitbox() { return super.getHitbox(); }
 

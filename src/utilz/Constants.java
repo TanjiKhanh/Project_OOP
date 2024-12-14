@@ -34,9 +34,7 @@ public class Constants {
     public static class Direction
     {
         public static final int LEFT = 0;
-        public static final int UP = 1;
         public static final int RIGHT = 2;
-        public static final int DOWN = 3;
     }
     public static class PlayerConstants{
         public static final int IDLE = 14;
@@ -112,12 +110,6 @@ public class Constants {
         public static final int JOKER_WIDTH = (int) (JOKER_WIDTH_DEFAULT * Game.SCALE);
         public static final int JOKER_HEIGHT = (int) (JOKER_HEIGHT_DEFAULT * Game.SCALE);
 
-        public static final int TURTLE_DRAWOFFSET_X = (int) (6 * Game.SCALE);
-        public static final int TURTLE_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
-        public static final int MUSHROOM_DRAWOFFSET_X = (int) (6 * Game.SCALE);
-        public static final int MUSHROOM_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
-        public static final int JOKER_DRAWOFFSET_X = (int) (6 * Game.SCALE);
-        public static final int JOKER_DRAWOFFSET_Y = (int) (4 * Game.SCALE);
 
         public static int GetDeadAnimation(int enemy_type)
         {
@@ -172,7 +164,6 @@ public class Constants {
     {
         public static final int PINE = 4;
         public static final int PINE_SIDES_DEFAULT = 32;
-        public static final int PINE_SIDES_WIDTH = ( int) (PINE_SIDES_DEFAULT * Game.SCALE * 1.5f);
-        public static final int PINE_SIDES_HEIGHT =  ( int) (PINE_SIDES_DEFAULT * Game.SCALE * 2);
+
     }
 }

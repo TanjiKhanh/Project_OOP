@@ -89,19 +89,6 @@ public class LoadSave {
 		return list;
 	}
 
-	public static ArrayList<Box> GetBox() {
-		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
-		ArrayList<Box> boxes = new ArrayList<>();
-		for (int j = 0; j < img.getHeight(); j++)
-			for (int i = 0; i < img.getWidth(); i++) {
-				Color color = new Color(img.getRGB(i, j));
-				int value = color.getGreen();
-				if (value == BOX)
-					boxes.add(new Box(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
-			}
-		return boxes;
-	}
-
 
 	public static int[][] GetLevelData() {
 		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
