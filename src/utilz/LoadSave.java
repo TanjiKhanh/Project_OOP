@@ -7,10 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
-import entities.Box;
-import entities.Mushroom;
-import entities.Turtle;
-import entities.Joker;
+import entities.*;
 import main.Game;
 
 import static utilz.Constants.BoxConstannts.BOX;
@@ -52,7 +49,7 @@ public class LoadSave {
 	}
 
 	//Get position of Turtle in level
-	public static ArrayList<Turtle> GetTurtle() {
+	public static ArrayList<Turtle> GetTurtle(EnemyManager enemyManager) {
 		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
 		ArrayList<Turtle> list = new ArrayList<>();
 		for (int j = 0; j < img.getHeight(); j++)
@@ -60,7 +57,7 @@ public class LoadSave {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getGreen();
 				if (value == TURTLE)
-					list.add(new Turtle(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
+					list.add(new Turtle(i * Game.TILES_SIZE, j * Game.TILES_SIZE , enemyManager  ));
 			}
 		return list;
 	}

@@ -13,6 +13,7 @@ public class EnemyManager {
     private BufferedImage [] turtleArr;
     private BufferedImage [] mushroomArr;
     private BufferedImage [] jokerArr;
+    private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Turtle> turtles = new ArrayList<>();
     private ArrayList<Mushroom> mushrooms = new ArrayList<>();
     private ArrayList<Joker> jokers = new ArrayList<>();
@@ -29,21 +30,13 @@ public class EnemyManager {
 //    }
 
     private void addEnemies() {
-        turtles = LoadSave.GetTurtle();
-        for(Turtle turtle : turtles){
-            turtle.setEnemyState(TURTLE_RUNNING);
-        }
-
+        turtles = LoadSave.GetTurtle(this);
         mushrooms = LoadSave.GetMushroom();
-        for(Mushroom m : mushrooms)
-        {
-            m.setEnemyState(MUSHROOM_RUNNING);
-        }
-
         jokers = LoadSave.GetJoker();
-        for(Joker j : jokers) {
-            j.setEnemyState(JOKER_IDLE);
-        }
+        enemies.addAll(turtles);
+        enemies.addAll(mushrooms);
+        enemies.addAll(jokers);
+
 
     }
 
@@ -111,6 +104,10 @@ public class EnemyManager {
     public ArrayList<Mushroom> getMushrooms() { return mushrooms; }
 
     public ArrayList<Joker> getJokers() { return jokers; }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
 
     public void resetAllEnermy() {
         for(Turtle i : turtles) {
