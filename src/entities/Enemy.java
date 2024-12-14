@@ -42,8 +42,6 @@ public abstract class Enemy extends Entity{
         }
     }
 
-
-
     public void Move(int[][] lvlData) {
         float xSpeed = 0;
 
@@ -59,7 +57,6 @@ public abstract class Enemy extends Entity{
                 changeWalkDir();
             else
                 hitbox.x += xSpeed;
-
     }
 
     public void updateAnimationTick() {
@@ -128,8 +125,20 @@ public abstract class Enemy extends Entity{
         hitbox.y = y;
         firstUpdate = true;
         inAir = false;
-//        enemyState = TURTLE_IDLE;
         fallSpeed = 0;
         isDead = false;
+
+        switch (enemyType) {
+            case TURTLE:
+                enemyState = TURTLE_RUNNING;
+                break;
+            case MUSHROOM:
+                enemyState = MUSHROOM_RUNNING;
+                break;
+            case JOKER:
+                enemyState = JOKER_IDLE;
+                break;
+        }
+
     }
 }
