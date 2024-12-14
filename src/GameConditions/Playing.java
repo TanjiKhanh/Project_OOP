@@ -25,7 +25,7 @@ public class Playing extends Condition implements ConditionMethods{
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private PauseOverlay pauseOverlay;
-    private boolean paused = false ;
+    private boolean paused = true;
 
 
 
