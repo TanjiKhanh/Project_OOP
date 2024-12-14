@@ -1,7 +1,5 @@
 package main;
 
-import entities.Player;
-import levels.LevelManager;
 import ui.SoundOption;
 
 import java.awt.*;
@@ -11,8 +9,6 @@ import GameConditions.Menu;
 
 public class Game implements Runnable {
     private GameWindow gameWindow;
-	private Player player;
-	private LevelManager levelManager;
     private GamePanel gamePanel;
     private Thread gameThread;
 	private Playing playing;
@@ -133,10 +129,7 @@ public class Game implements Runnable {
 
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
-	
+
 	public Menu getMenu() {
 		return menu;
 	}
@@ -145,9 +138,6 @@ public class Game implements Runnable {
 		return playing;
 	}
 
-	public GamePanel getGamePanel() {
-		return gamePanel;
-	}
 
 	public SoundOption getSoundOption(){
 		return soundOption;

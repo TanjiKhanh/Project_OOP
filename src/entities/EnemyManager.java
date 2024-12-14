@@ -9,7 +9,6 @@ import utilz.LoadSave;
 import static utilz.Constants.EnemyConstants.*;
 
 public class EnemyManager {
-    // private Playing playing; // chua co class
     private BufferedImage [] turtleArr;
     private BufferedImage [] mushroomArr;
     private BufferedImage [] jokerArr;
@@ -17,17 +16,12 @@ public class EnemyManager {
     private ArrayList<Turtle> turtles = new ArrayList<>();
     private ArrayList<Mushroom> mushrooms = new ArrayList<>();
     private ArrayList<Joker> jokers = new ArrayList<>();
-    private GamePanel gamePanel;
-    private int aniTick, aniSpeed = 25;
 
     public EnemyManager() {
         loadEnemyImgs();
         addEnemies();
     }
 
-//    public EnemyManager() {
-//        loadEnemyImgs();
-//    }
 
     private void addEnemies() {
         turtles = LoadSave.GetTurtle(this);
@@ -96,13 +90,6 @@ public class EnemyManager {
             jokerArr[i] = temp2.getSubimage(219 + i * JOKER_WIDTH_DEFAULT, 287, JOKER_WIDTH_DEFAULT, JOKER_HEIGHT_DEFAULT);
         }
     }
-
-    public ArrayList<Turtle> getTurtles() {
-        return turtles;
-    }
-    public ArrayList<Mushroom> getMushrooms() { return mushrooms; }
-
-    public ArrayList<Joker> getJokers() { return jokers; }
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;

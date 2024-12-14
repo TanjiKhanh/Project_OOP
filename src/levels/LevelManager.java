@@ -10,7 +10,6 @@ import main.Game;
 import utilz.LoadSave;
 
 import static utilz.Constants.PineConstants.PINE_SIDES_DEFAULT;
-import static utilz.LoadSave.GetBox;
 
 public class LevelManager {
 
@@ -20,14 +19,12 @@ public class LevelManager {
     private BufferedImage backgroundImage , smallCloudImage , bigCloudImage;
     private int [] smallCloudsPos;
     private Random random = new Random();
-    private ArrayList<Box> boxes;
 
     public LevelManager(Game game) {
         importOutsideSprites();
         levelOne = new Level(LoadSave.GetLevelData());
         this.game = game;
 
-        boxes = GetBox();
 
         smallCloudsPos = new int[16];
         for (int i = 0; i < smallCloudsPos.length; i++)

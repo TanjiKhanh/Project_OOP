@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import GameConditions.Playing;
 import main.Game;
 
+import static utilz.Constants.Direction.LEFT;
+import static utilz.Constants.Direction.RIGHT;
 import static utilz.Constants.EnemyConstants.GetDeadAnimation;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.Constants.EnemyConstants;
@@ -24,7 +26,6 @@ public class Player extends Entity {
     private BufferedImage[] bigMarioAnimations;
     private int aniTick, aniIndex, aniSpeed = 25; //UPS 200 - 4 animtion per second
     private int playerAction = IDLE;
-    private int playerDir = -1;
     private boolean running = false;
     private boolean left, right, jump;
 
@@ -135,18 +136,7 @@ public class Player extends Entity {
 
 
     }
-//
-//    private void deadMovement() {
-//        if (isDead) return; // Prevent restarting the animation
-//        isDead = true; // Set death state
-//        playerAction = DEAD; // Set animation to dead
-//        deathVelocityY = -0.05f  * Game.SCALE; // Reset upward bounce velocity
-//    }
 
-//    private void resetDeathAnimation() {
-//        playerAction = IDLE; // Reset to idle state after animation
-//        deathVelocityY = 0; // Reset velocity
-//    }
 
     private void resetAniTick() {
         aniTick = 0;
@@ -165,20 +155,18 @@ public class Player extends Entity {
                 Turtle turtle = (Turtle) enemy;
 
                 // Handle "dead but not yet kicked" turtles
-                if (turtle.isDead() && !turtle.isKicked()) {
-                    if (turtle.isReadyToBeKicked() && hitbox.intersects(turtle.getHitbox())) {
-                        turtle.setKicked(true, playerAction);
+                if (turtle.isDead() ) {
+                    if(hitbox.intersects(turtle.getHitbox()))
+                    {
+                        if(!turtle.isKicked())
+                        {
+                            int playerDir = left ? LEFT : RIGHT;
+                            turtle.setKicked(true, playerDir);
+                        }
+                        else if(turtle.isKickGracePeriodOver())
+                            deadMovement();  // Skip further checks for this turtle
+                        continue;
                     }
-                    continue; // Skip further checks for this turtle
-                }
-                // If the turtle is dead and spinning, handle collision with player
-                else if (turtle.isDead() && turtle.isKicked()) {
-
-                    // Prevent player from dying when colliding with a dead, spinning turtle
-                    if (hitbox.intersects(turtle.getHitbox())) {
-                        deadMovement();
-                    }
-                    continue; // Skip the regular dead logic as we've already handled it
                 }
 
             }
@@ -194,10 +182,6 @@ public class Player extends Entity {
                 airSpeed += 1.5f * jumpSpeed;
                 enemy.setDead(true);
 
-                // If the enemy is a turtle, mark it as recently dead
-                if (enemy instanceof Turtle) {
-                    ((Turtle) enemy).setRecentlyDead(true);
-                }
             }
             //Collsion other direction
             else if (hitbox.intersects(enemy.getHitbox()))
@@ -314,18 +298,14 @@ public class Player extends Entity {
         this.jump = jump;
     }
 
-    public int getAniIndex() {
-        return aniIndex;
-    }
-    public int getPlayerAction() {
-        return playerAction;
-    }
 
     public void resetAll() {
         hitbox.x = x;
         hitbox.y = y;
         resetInAir();
+        resetAniTick();
         running = false;
+        deathVelocityY = -1.2f * Game.SCALE;
         playerAction = IDLE;
         left = false;
         right = false;

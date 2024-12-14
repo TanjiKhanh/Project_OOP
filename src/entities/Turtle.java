@@ -1,9 +1,6 @@
 package entities;
 
-import static utilz.Constants.Direction.LEFT;
 import static utilz.Constants.EnemyConstants.*;
-import static utilz.HelpMethods.*;
-
 import main.Game;
 
 import java.awt.geom.Rectangle2D;
@@ -11,13 +8,8 @@ import java.util.ArrayList;
 
 
 public class Turtle extends Enemy{
-    private int xOffset = Game.TILES_SIZE;
-    private int yOffset = Game.TILES_SIZE;
     private boolean isKicked = false;
-    private boolean recentlyDead; // To manage a grace period
-    private boolean recentlyKick;
-    private long deathTime;       // Timestamp for when the turtle was marked as dead
-    private long kickTime;       // Timestamp for when the turtle was marked as dead
+    private long kickedTime = 0;
 
     private EnemyManager enemyManager;
     public Turtle(float x, float y , EnemyManager enemyManager) {
@@ -72,38 +64,28 @@ public class Turtle extends Enemy{
             isKicked = kicked;
             walkDir = playerDirection;
             walkSpeed = 1.5f;
-            recentlyKick = true;
+            this.kickedTime = System.currentTimeMillis(); // Record when kicked
         }
     }
 
-
-    // Call this when the turtle is marked as dead
-    public void setRecentlyDead(boolean recentlyDead) {
-        this.recentlyDead = recentlyDead;
-        if (recentlyDead) {
-            deathTime = System.currentTimeMillis();
-        }
+    public boolean isKickGracePeriodOver() {
+        return (System.currentTimeMillis() - kickedTime) > 200; // 100ms grace period
     }
 
-    // Check if the turtle is ready to be kicked
-    public boolean isReadyToBeKicked() {
-        if (!recentlyDead) return true; // If not recently dead, can be kicked
-        return System.currentTimeMillis() - deathTime > 500; // Grace period of 500ms
+    @Override
+    public void resetEnemy() {
+        hitbox.x = x;
+        hitbox.y = y;
+        firstUpdate = true;
+        inAir = false;
+        fallSpeed = 0;
+        isDead = false;
+        isKicked = false;
+        walkSpeed = 0.35f * Game.SCALE;
+        enemyState = TURTLE_RUNNING;
+        resetAniTick();
     }
 
-    // Check if the turtle is ready to be kicked
-    public boolean isReadyToBeSpinned() {
-        if (!recentlyKick) return true; // If not recently dead, can be kicked
-        return System.currentTimeMillis() - kickTime > 500; // Grace period of 500ms
-    }
-
-    // Call this when the turtle is marked as dead
-    public void setRecentlyKick(boolean recentlyDead) {
-        this.recentlyKick = recentlyDead;
-        if (recentlyKick) {
-            kickTime = System.currentTimeMillis();
-        }
-    }
 
     @Override
     public Rectangle2D.Float getHitbox() {

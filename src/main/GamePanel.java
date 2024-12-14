@@ -1,13 +1,10 @@
 package main;
 
-import entities.Player;
 import inputs.KeyBoardInputs;
 import inputs.MouseInput;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
-import levels.LevelManager;
 import static main.Game.*;
 
 public class GamePanel extends JPanel {
