@@ -75,7 +75,6 @@ public class EnemyManager {
     private void drawJoker(Graphics g , int lvlOffset) {
         for(Joker joker : jokers) {
             g.drawImage(jokerArr[joker.getEnemyState() + joker.getAniIndex()], (int) joker.hitbox.x - lvlOffset, (int) joker.hitbox.y, JOKER_WIDTH, JOKER_HEIGHT, null);
-            joker.drawHitBox(g);
         }
     }
 
@@ -109,9 +108,17 @@ public class EnemyManager {
         return enemies;
     }
 
-    public void resetAllEnermy() {
+    public void resetAllEnermies() {
         for(Turtle i : turtles) {
             i.resetEnemy();
+        }
+
+        for(Mushroom m: mushrooms) {
+            m.resetEnemy();
+        }
+
+        for(Joker j: jokers) {
+            j.resetEnemy();
         }
     }
 }

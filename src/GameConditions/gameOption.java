@@ -75,7 +75,5 @@ public class gameOption extends Condition implements ConditionMethods {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        
     }
-
 }

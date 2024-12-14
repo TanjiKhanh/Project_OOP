@@ -27,8 +27,6 @@ public class Playing extends Condition implements ConditionMethods{
     private PauseOverlay pauseOverlay;
     private boolean paused = true;
 
-
-
     //Game cam focus variable
     private int rightBorder = (int) ( GAME_WIDTH * 0.8 );
     private int leftBorder = (int) ( GAME_WIDTH * 0.2 );
@@ -36,7 +34,6 @@ public class Playing extends Condition implements ConditionMethods{
     private int maxTilesLvlWidth = LoadSave.GetLevelData()[0].length;
     private int maxTilesOffset = maxTilesLvlWidth - Game.TILES_IN_WIDTH;
     private int maxLvlOffset = maxTilesOffset * Game.TILES_SIZE;
-
 
     private boolean gameOver = false;
 
@@ -46,11 +43,10 @@ public class Playing extends Condition implements ConditionMethods{
     }
 
 
-    private void resetAll()
-    {
+    public void resetAll() {
         gameOver = false;
         player.resetAll();
-        enemyManager.resetAllEnermy();
+        enemyManager.resetAllEnermies();
     }
     private void initClasses() {
         levelManager = new LevelManager(game);

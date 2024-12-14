@@ -39,7 +39,7 @@ public class Player extends Entity {
     private float gravity = 0.04f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
-    private boolean inAir = false;
+    private boolean inAir = true;
     private EnemyManager enemyManager;
 
 
@@ -56,11 +56,7 @@ public class Player extends Entity {
         this.playing = playing;
     }
 
-
-
-
     public void update() {
-
         if (isDead) {
             handleDeathAnimation(); // Continue death animation if necessary
             return; // Skip collision and other updates
@@ -217,7 +213,6 @@ public class Player extends Entity {
 
     private void setPos() {
         running = false;
-
         if (jump)
             jump();
 
@@ -289,7 +284,6 @@ public class Player extends Entity {
         }
         else
             hitbox.x = GetEntityXPosNextToWall(hitbox , xSpeed);
-
     }
 
 
