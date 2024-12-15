@@ -9,6 +9,7 @@ import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import ui.GameOverOverLap;
 import ui.PauseOverlay;
 import utilz.LoadSave;
 import static utilz.Constants.PlayerConstants.*;
@@ -21,7 +22,8 @@ public class Playing extends Condition implements ConditionMethods{
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private PauseOverlay pauseOverlay;
-    private boolean paused = true;
+    private GameOverOverLap gameOverOverLap;
+    private boolean paused = false;
 
     //Game cam focus variable
     private int rightBorder = (int) ( GAME_WIDTH * 0.8 );
@@ -50,6 +52,7 @@ public class Playing extends Condition implements ConditionMethods{
         player = new Player(200, 200, (int) ( SMALL_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (SMALL_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this);
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
+        gameOverOverLap = new GameOverOverLap(this);
     }
 
     private void levelUpdate() {
@@ -73,6 +76,10 @@ public class Playing extends Condition implements ConditionMethods{
     @Override
     public void update() {
 
+        if(gameOver) {
+            gameOverOverLap.update();
+            return;
+        }
         if (!paused) {
 			levelManager.update();
             player.update();
@@ -91,6 +98,7 @@ public class Playing extends Condition implements ConditionMethods{
         player.render(g , lvlOffset);
         enemyManager.draw(g , lvlOffset);
         if (paused) pauseOverlay.draw(g);
+        if(gameOver) gameOverOverLap.draw(g);
     }
 
     @Override
@@ -100,17 +108,30 @@ public class Playing extends Condition implements ConditionMethods{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (paused) pauseOverlay.mousePressed(e);
+        if(!gameOver) {
+            if (paused) pauseOverlay.mousePressed(e);
+        }
+        else
+            gameOverOverLap.mousePressed(e);
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (paused) pauseOverlay.mouseReleased(e);
+        if(!gameOver) {
+            if (paused) pauseOverlay.mouseReleased(e);
+        }
+        else
+            gameOverOverLap.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (paused) pauseOverlay.mouseMoved(e);
+        if(!gameOver) {
+            if (paused) pauseOverlay.mouseMoved(e);
+        }
+        else
+            gameOverOverLap.mouseMoved(e);
     }
 
     @Override
@@ -127,6 +148,9 @@ public class Playing extends Condition implements ConditionMethods{
                 break;
             case KeyEvent.VK_ESCAPE:
                 paused = !paused;
+                break;
+            case KeyEvent.VK_E:
+                player.setInAir(false);
                 break;
         }
     }
