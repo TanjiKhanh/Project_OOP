@@ -133,8 +133,6 @@ public class Player extends Entity {
         deathVelocityY += deathGravity; // Apply gravity to velocity
         if(hitbox.y >= Game.GAME_HEIGHT)
             playing.setGameOver(true);
-
-
     }
 
 
@@ -285,6 +283,9 @@ public class Player extends Entity {
         }
     }
 
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
+    }
 
     public void setLeft(boolean left) {
         this.left = left;

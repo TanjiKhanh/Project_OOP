@@ -30,6 +30,7 @@ public class LoadSave {
 	public static final String VOLUME_BUTTONS = "volume_buttons.png";
 	public static final String OPTIONS_MENU = "options_background.png";
 	public static final String URM_BUTTONS = "urm_buttons.png";
+	public static final  String GAMEOVER_BACKGROUND = "death_screen.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;

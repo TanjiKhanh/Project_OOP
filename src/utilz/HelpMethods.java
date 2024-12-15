@@ -31,20 +31,39 @@ public class HelpMethods {
             return true;
         return false;
     }
+//    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
+//        int currentTile = (int) (hitbox.x / Game.TILES_SIZE);
+//        if (xSpeed > 0) {
+//            // Right
+//            int tileXPos = currentTile * Game.TILES_SIZE;
+//            int xOffset = (int) (Game.TILES_SIZE - hitbox.width);
+//            return tileXPos + xOffset - 1;
+//
+//        } else
+//            // Left
+//            System.out.println(currentTile);
+//            return currentTile * Game.TILES_SIZE + 0.5f;
+//    }
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
-        int currentTile = (int) (hitbox.x / Game.TILES_SIZE);
+        int currentTile = (int) (hitbox.x / Game.TILES_SIZE); // Game.TILES_SIZE = 48
+
         if (xSpeed > 0) {
             // Right
             int tileXPos = currentTile * Game.TILES_SIZE;
             int xOffset = (int) (Game.TILES_SIZE - hitbox.width);
             return tileXPos + xOffset - 1;
-
-        } else
-            // Left
-            return currentTile * Game.TILES_SIZE + 0.5f;
+        } else {
+            // Moving left: Align to the right edge of the current or neighboring left tile
+            if ( hitbox.x % Game.TILES_SIZE == 0) {
+                currentTile -= 1; // If perfectly aligned to a boundary, move to the left tile
+            }
+            int tileXPos = currentTile * Game.TILES_SIZE;
+            return tileXPos + 1; // Align to the right edge of the tile
+        }
     }
 
-        public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed ) {
+
+    public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed ) {
         int currentTile;
         int tileYPos;
         if (airSpeed > 0) {
