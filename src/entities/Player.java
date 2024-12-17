@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import GameConditions.Playing;
 import audio.audioPlayer;
+import levels.LevelManager;
 import main.Game;
 
 import static utilz.Constants.Direction.LEFT;
@@ -43,6 +44,7 @@ public class Player extends Entity {
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = true;
     private EnemyManager enemyManager;
+    private LevelManager levelManager;
 
 
     //Dead
@@ -50,21 +52,28 @@ public class Player extends Entity {
     private float deathVelocityY = -1.2f * Game.SCALE; // Initial bounce velocity
     private float deathGravity = 0.01f * Game.SCALE; // Gravity for death animation
 
-    public Player(float  x, float  y ,  int width , int height , EnemyManager enemyManager , Playing playing) {
+    private boolean isWinning = false;
+
+    public Player(float  x, float  y ,  int width , int height , EnemyManager enemyManager , Playing playing , LevelManager levelManager) {
         super(x, y , width , height);
         loadAnimation();
         initHitbox( x , y , 18 * Game.SCALE , 34 * Game.SCALE);
         this.enemyManager = enemyManager;
         this.playing = playing;
+        this.levelManager = levelManager;
     }
 
     public void update() {
+        if(isWinning)
+            handleWinningAnimation();
+
         if (isDead) {
             handleDeathAnimation(); // Continue death animation if necessary
             return; // Skip collision and other updates
         }
         //collision before setPos to handle reset airspeed
         collisionEnemy();
+        collisionFlag();
         setPos();
         setAnimation();
         updateAnimationTick();
@@ -128,6 +137,31 @@ public class Player extends Entity {
     }
 
 
+    private void collisionFlag()
+    {
+        ArrayList<Flag> flags = levelManager.getFlags();
+        for( Flag f : flags)
+        {
+            if(hitbox.intersects(f.getHitbox()))
+                isWinning = true;
+        }
+
+    }
+
+    private void handleWinningAnimation()
+    {
+
+        hitbox.x += playerSpeed;
+
+        if(hitbox.x >= 4370){
+            playing.setWinning(isWinning);
+            // Make the player disappear by moving them off-screen
+            hitbox.x = 4370;
+            hitbox.y = -100;
+        }
+
+
+    }
 
     private void handleDeathAnimation() {
         hitbox.y += deathVelocityY; // Move the player vertically
@@ -197,20 +231,27 @@ public class Player extends Entity {
 
 
     private void setPos() {
-        running = false;
-        if (jump)
-            jump();
+
+
+
+        float xSpeed = 0;
+
+        if(!isWinning)
+        {
+            running = false;
+
+            if (jump)
+                jump();
+            if (left)
+                xSpeed -= playerSpeed;
+            if (right)
+                xSpeed += playerSpeed;
+        }
 
         if (!inAir)
             if ((!left && !right) || (right && left))
                 return;
 
-        float xSpeed = 0;
-
-        if (left)
-            xSpeed -= playerSpeed;
-        if (right)
-            xSpeed += playerSpeed;
 
         if (!inAir)
             if (!IsEntityOnFloor(hitbox, lvlData))
@@ -242,7 +283,6 @@ public class Player extends Entity {
 
         running = true;
     }
-
 
     private void deadMovement()
     {
@@ -317,5 +357,7 @@ public class Player extends Entity {
         right = false;
         jump = false;
         isDead = false;
+        isWinning = false;
+
     }
 }

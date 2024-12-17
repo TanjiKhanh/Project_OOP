@@ -12,10 +12,10 @@ public class EnemyManager {
     private BufferedImage [] turtleArr;
     private BufferedImage [] mushroomArr;
     private BufferedImage [] jokerArr;
-    private ArrayList<Enemy> enemies = new ArrayList<>();
-    private ArrayList<Turtle> turtles = new ArrayList<>();
-    private ArrayList<Mushroom> mushrooms = new ArrayList<>();
-    private ArrayList<Joker> jokers = new ArrayList<>();
+    private ArrayList<Enemy> enemies;
+    private ArrayList<Turtle> turtles;
+    private ArrayList<Mushroom> mushrooms;
+    private ArrayList<Joker> jokers;
 
     public EnemyManager() {
         loadEnemyImgs();
@@ -24,6 +24,7 @@ public class EnemyManager {
 
 
     private void addEnemies() {
+        enemies = new ArrayList<>();
         turtles = LoadSave.GetTurtle(this);
         mushrooms = LoadSave.GetMushroom();
         jokers = LoadSave.GetJoker();
