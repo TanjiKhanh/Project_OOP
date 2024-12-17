@@ -3,7 +3,7 @@ package main;
 import ui.SoundOption;
 
 import java.awt.*;
-
+import audio.audioPlayer;
 import GameConditions.*;
 import GameConditions.Menu;
 
@@ -15,7 +15,8 @@ public class Game implements Runnable {
 	private Menu menu;
 	private gameOption gameOption;
 	private SoundOption soundOption;
-    private final int FPS_SET = 120;
+	private audioPlayer audioPlayer;
+	private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static float SCALE = 1.5f;
@@ -33,12 +34,13 @@ public class Game implements Runnable {
         gamePanel.requestFocus();
 		gamePanel.setFocusable(true);
         startGameLoop();
+		audioPlayer = new audioPlayer();
 
     }
 
 	private void initialClasses()
 	{
-		soundOption = new SoundOption();
+		soundOption = new SoundOption(this);
 		menu = new Menu(this);
 		playing = new Playing(this);
 		gameOption = new gameOption(this);
@@ -145,5 +147,9 @@ public class Game implements Runnable {
 
 	public gameOption getGameOption() {
 		return gameOption;
+	}
+
+	public audioPlayer getAudioPlayer() {
+		return audioPlayer;
 	}
 }

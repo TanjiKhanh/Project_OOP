@@ -8,6 +8,7 @@ import GameConditions.gameConditions;
 
 import java.awt.event.MouseEvent;
 
+import audio.audioPlayer;
 import main.Game;
 import utilz.LoadSave;
 import static utilz.Constants.UI.PauseButton.*;
@@ -92,6 +93,7 @@ public class PauseOverlay {
             if (replayB.isMousePressed()) {
                 playing.resetAll();
                 playing.unpauseGame();
+                playing.getGame().getAudioPlayer().playSong(audioPlayer.MENU_1);
             }
         }
 
