@@ -86,6 +86,7 @@ public class PauseOverlay {
                 gameConditions.condition = gameConditions.MENU;
                 playing.resetAll();
                 playing.unpauseGame();
+                playing.getGame().getAudioPlayer().playSong(audioPlayer.MENU_1);
             }
         }
 
