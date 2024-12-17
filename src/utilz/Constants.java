@@ -15,14 +15,14 @@ public class Constants {
             public static final int MUSIC_SIZE = (int) (MUSIC_SIZE_DEFAULT * Game.SCALE);
         }
         public static class VolumeButtons {
-			public static final int VOLUME_DEFAULT_WIDTH = 28;
-			public static final int VOLUME_DEFAULT_HEIGHT = 44;
-			public static final int SLIDER_DEFAULT_WIDTH = 215;
+            public static final int VOLUME_DEFAULT_WIDTH = 28;
+            public static final int VOLUME_DEFAULT_HEIGHT = 44;
+            public static final int SLIDER_DEFAULT_WIDTH = 215;
 
-			public static final int VOLUME_WIDTH = (int) (VOLUME_DEFAULT_WIDTH * Game.SCALE);
-			public static final int VOLUME_HEIGHT = (int) (VOLUME_DEFAULT_HEIGHT * Game.SCALE);
-			public static final int SLIDER_WIDTH = (int) (SLIDER_DEFAULT_WIDTH * Game.SCALE);
-		}
+            public static final int VOLUME_WIDTH = (int) (VOLUME_DEFAULT_WIDTH * Game.SCALE);
+            public static final int VOLUME_HEIGHT = (int) (VOLUME_DEFAULT_HEIGHT * Game.SCALE);
+            public static final int SLIDER_WIDTH = (int) (SLIDER_DEFAULT_WIDTH * Game.SCALE);
+        }
 
         public static class URMButtons {
             public static final int URM_DEFAULT_SIZE = 56;
@@ -153,17 +153,34 @@ public class Constants {
 
 
     }
+
+
     //Box constants
-    public static class BoxConstannts
+    public static class BrickConstants
     {
-        public static final int BOX = 3;
-        public static final int BOX_SIDES_DEFAULT = 64;
+        public static final int BRICK = 3;
+        public static final int BRICK_SIDES_DEFAULT = 16;
     }
+
+    //Box constants
+    public static class FlagConstants
+    {
+        public static final int FLAG = 4;
+        public static final int FLAG_DEFAULT_WIDTH = 56;
+        public static final int FLAG_DEFAULT_HEIGHT = 271;
+    }
+
 
     public static class PineConstants
     {
-        public static final int PINE = 4;
         public static final int PINE_SIDES_DEFAULT = 32;
+
+    }
+
+    public static class PalaceConstants
+    {
+        public static final int PALACE_WIDTH = 600;
+        public static final int PALACE_HEIGHT = 350;
 
     }
 }

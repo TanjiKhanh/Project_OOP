@@ -9,6 +9,7 @@ import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import ui.CompletedOverlay;
 import ui.GameOverOverLap;
 import ui.PauseOverlay;
 import utilz.LoadSave;
@@ -23,6 +24,7 @@ public class Playing extends Condition implements ConditionMethods{
     private EnemyManager enemyManager;
     private PauseOverlay pauseOverlay;
     private GameOverOverLap gameOverOverLap;
+    private CompletedOverlay completedOverlay;
     private boolean paused = false;
 
     //Game cam focus variable
@@ -34,6 +36,7 @@ public class Playing extends Condition implements ConditionMethods{
     private int maxLvlOffset = maxTilesOffset * Game.TILES_SIZE;
 
     private boolean gameOver = false;
+    private boolean isWinning = false;
 
     public Playing(Game game){
         super(game);
@@ -43,16 +46,18 @@ public class Playing extends Condition implements ConditionMethods{
 
     public void resetAll() {
         gameOver = false;
+        isWinning = false;
         player.resetAll();
         enemyManager.resetAllEnermies();
     }
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager();
-        player = new Player(200, 200, (int) ( SMALL_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (SMALL_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this);
+        player = new Player(4000, 200, (int) ( SMALL_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (SMALL_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this , levelManager );
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverLap = new GameOverOverLap(this);
+        completedOverlay = new CompletedOverlay(this);
     }
 
     private void levelUpdate() {
@@ -80,14 +85,20 @@ public class Playing extends Condition implements ConditionMethods{
             gameOverOverLap.update();
             return;
         }
+
+        if(isWinning)
+        {
+            completedOverlay.update();
+            return;
+        }
         if (!paused) {
-			levelManager.update();
+            levelManager.update();
             player.update();
             levelUpdate();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData());
-		} else {
-			pauseOverlay.update();
-		}
+        } else {
+            pauseOverlay.update();
+        }
     }
 
 
@@ -99,6 +110,7 @@ public class Playing extends Condition implements ConditionMethods{
         enemyManager.draw(g , lvlOffset);
         if (paused) pauseOverlay.draw(g);
         if(gameOver) gameOverOverLap.draw(g);
+        if(isWinning) completedOverlay.draw(g);
     }
 
     @Override
@@ -108,30 +120,36 @@ public class Playing extends Condition implements ConditionMethods{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(!gameOver) {
-            if (paused) pauseOverlay.mousePressed(e);
-        }
+        if (paused)
+            pauseOverlay.mousePressed(e);
+        else if(isWinning)
+            completedOverlay.mousePressed(e);
         else
             gameOverOverLap.mousePressed(e);
+
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(!gameOver) {
-            if (paused) pauseOverlay.mouseReleased(e);
-        }
+        if (paused)
+            pauseOverlay.mouseReleased(e);
+        else if(isWinning)
+            completedOverlay.mouseReleased(e);
         else
             gameOverOverLap.mouseReleased(e);
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if(!gameOver) {
-            if (paused) pauseOverlay.mouseMoved(e);
-        }
+        if (paused)
+            pauseOverlay.mouseMoved(e);
+        else if (isWinning)
+            completedOverlay.mouseMoved(e);
         else
             gameOverOverLap.mouseMoved(e);
+
     }
 
     @Override
@@ -170,16 +188,19 @@ public class Playing extends Condition implements ConditionMethods{
         }
     }
 
+    public void setWinning(boolean winning) {
+        isWinning = winning;
+    }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
     public void mouseDragged(MouseEvent e) {
-		if (paused) pauseOverlay.mouseDragged(e);
-	}
-    
+        if (paused) pauseOverlay.mouseDragged(e);
+    }
+
     public void unpauseGame() {
-		paused = false;
-	}
+        paused = false;
+    }
 }

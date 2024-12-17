@@ -10,9 +10,9 @@ import javax.imageio.ImageIO;
 import entities.*;
 import main.Game;
 
-import static utilz.Constants.BoxConstannts.BOX;
+import static utilz.Constants.BrickConstants.BRICK;
 import static utilz.Constants.EnemyConstants.*;
-import static utilz.Constants.PineConstants.PINE;
+import static utilz.Constants.FlagConstants.FLAG;
 
 public class LoadSave {
 	public static final String CHARACTERS_ATLAS = "characters.gif";
@@ -23,7 +23,7 @@ public class LoadSave {
 	public static final String BACKGROUND_IMAGE = "playing_bg_img.png";
 	public static final String BIG_CLOUD_IMAGE = "big_clouds.png";
 	public static final String SMALL_CLOUD_IMAGE = "small_clouds.png";
-	public static final String BOX_IMAGE = "7cQjJM.png";
+	public static final String FLAG_IMAGE = "flag.png";
 	public static final String PINE_IMAGE = "tiles.png";
 	public static final String PAUSE_BACKGROUND = "pause_background.png";
 	public static final String SOUND_BUTTON = "sound_button.png";
@@ -31,6 +31,10 @@ public class LoadSave {
 	public static final String OPTIONS_MENU = "options_background.png";
 	public static final String URM_BUTTONS = "urm_buttons.png";
 	public static final  String GAMEOVER_BACKGROUND = "death_screen.png";
+	public static final  String PALACE_IMG = "palace.png";
+	public static final  String COMPLETED_IMG = "completed_sprite.png";
+
+
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -91,6 +95,21 @@ public class LoadSave {
 	}
 
 
+	public static ArrayList<Flag> GetFlag() {
+		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		ArrayList<Flag> list = new ArrayList<>();
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if(value == FLAG)
+				{
+					list.add(new Flag(i * Game.TILES_SIZE, j * Game.TILES_SIZE ));
+				}
+			}
+		return list;
+	}
+
 	public static int[][] GetLevelData() {
 		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
 		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
@@ -99,7 +118,7 @@ public class LoadSave {
 			for (int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getRed();
-				if (value >= 50)
+				if (value >= 51)
 					value = 0;
 				lvlData[j][i] = value;
 			}

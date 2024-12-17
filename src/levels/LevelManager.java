@@ -5,10 +5,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import entities.Box;
+import entities.Flag;
 import main.Game;
 import utilz.LoadSave;
 
+import static utilz.Constants.BrickConstants.BRICK_SIDES_DEFAULT;
+import static utilz.Constants.PalaceConstants.*;
 import static utilz.Constants.PineConstants.PINE_SIDES_DEFAULT;
 
 public class LevelManager {
@@ -16,9 +18,11 @@ public class LevelManager {
     private Game game;
     private BufferedImage [] levelSprite;
     private Level levelOne;
-    private BufferedImage backgroundImage , smallCloudImage , bigCloudImage;
+    private BufferedImage backgroundImage , smallCloudImage , bigCloudImage , palace;
     private int [] smallCloudsPos;
+    private BufferedImage [] flag;
     private Random random = new Random();
+    private ArrayList<Flag> flags;
 
     public LevelManager(Game game) {
         importOutsideSprites();
@@ -29,6 +33,8 @@ public class LevelManager {
         smallCloudsPos = new int[16];
         for (int i = 0; i < smallCloudsPos.length; i++)
             smallCloudsPos[i] = (int) (90 * Game.SCALE) + random.nextInt((int) (100 * Game.SCALE));
+
+        flags = LoadSave.GetFlag();
     }
 
     private void importOutsideSprites() {
@@ -42,9 +48,15 @@ public class LevelManager {
         //Small cloud image
         smallCloudImage = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUD_IMAGE);
 
+
+        //Palace
+        palace = LoadSave.GetSpriteAtlas(LoadSave.PALACE_IMG);
+
+
+
         //Level background 2D array
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
-        levelSprite = new BufferedImage[50];
+        levelSprite = new BufferedImage[51];
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 12; i++) {
                 int index = j * 12 + i;
@@ -54,7 +66,7 @@ public class LevelManager {
         BufferedImage pineImg = LoadSave.GetSpriteAtlas(LoadSave.PINE_IMAGE);
         levelSprite[48] = pineImg.getSubimage(0 , 129 , PINE_SIDES_DEFAULT  , PINE_SIDES_DEFAULT - 1);
         levelSprite[49] = pineImg.getSubimage(0 , 145 , PINE_SIDES_DEFAULT , PINE_SIDES_DEFAULT / 2);
-
+        levelSprite[50] = pineImg.getSubimage(0 , 16 , BRICK_SIDES_DEFAULT , BRICK_SIDES_DEFAULT);
     }
 
 
@@ -66,31 +78,45 @@ public class LevelManager {
 
         //Draw big cloud
         for (int i = 0; i < 12; i++) {
-                g.drawImage(bigCloudImage , i * 448 -  lvlOffset , 360 , 448 , 101, null );
+            g.drawImage(bigCloudImage , i * 448 -  lvlOffset , 360 , 448 , 101, null );
         }
 
         //Draw small cloud
         for (int i = 0; i < smallCloudsPos.length; i++)
             g.drawImage(smallCloudImage, 74 * 4 * i - (int) (lvlOffset * 0.7), smallCloudsPos[i], 74, 24, null);
 
+
+
+        //Draw palace
+        g.drawImage(palace , (int) ( levelOne.getLevelData()[0].length * Game.TILES_SIZE - 1.2f * PALACE_WIDTH - lvlOffset ), 188 , PALACE_WIDTH , PALACE_HEIGHT , null);
+
+
+        for(Flag f : flags)
+            f.draw(g ,lvlOffset);
+
         //Draw level Background 2D array
         for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < levelOne.getLevelData()[0].length; i++) {
                 int index = levelOne.getSpriteIndex(i, j);
-                g.drawImage(levelSprite[index], Game.TILES_SIZE * i - lvlOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                if(index == 50)
+                    g.drawImage( levelSprite[index] ,  (int) Game.TILES_SIZE * i - lvlOffset , (int) Game.TILES_SIZE * j + 24  , (int)(BRICK_SIDES_DEFAULT * Game.SCALE ), (int)(BRICK_SIDES_DEFAULT * Game.SCALE) , null);
+                else
+                    g.drawImage(levelSprite[index], Game.TILES_SIZE * i - lvlOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+
             }
         }
 
 
     }
 
-    public void update() {
 
-    }
+    public void update() {}
 
     public Level getCurrentLevel() {
         return levelOne;
     }
 
-
+    public ArrayList<Flag> getFlags() {
+        return flags;
+    }
 }
