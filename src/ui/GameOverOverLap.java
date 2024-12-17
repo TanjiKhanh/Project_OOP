@@ -2,6 +2,7 @@ package ui;
 
 import GameConditions.Playing;
 import GameConditions.gameConditions;
+import audio.audioPlayer;
 import main.Game;
 import utilz.LoadSave;
 
@@ -68,6 +69,7 @@ public class GameOverOverLap {
                 gameConditions.condition = gameConditions.MENU;
                 playing.resetAll();
                 playing.unpauseGame();
+                playing.getGame().getAudioPlayer().playSong(audioPlayer.MENU_1);
             }
         }
 
@@ -75,6 +77,7 @@ public class GameOverOverLap {
             if (replayB.isMousePressed()) {
                 playing.resetAll();
                 playing.unpauseGame();
+                playing.getGame().getAudioPlayer().playSong(audioPlayer.MENU_1);
             }
         }
 

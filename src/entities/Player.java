@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import GameConditions.Playing;
+import audio.audioPlayer;
 import main.Game;
 
 import static utilz.Constants.Direction.LEFT;
@@ -171,6 +172,7 @@ public class Player extends Entity {
 
             // Regular collision handling
             if (enemy.isDead()) continue;
+
             //if collision above the turtles frames
             if (playerCollisionAboveEnemies(hitbox, enemy.getHitbox())) {
                 int deadEnemyState = GetDeadAnimation(enemy.enemyType);
@@ -179,6 +181,7 @@ public class Player extends Entity {
                 //Smoothly movement
                 airSpeed += 1.5f * jumpSpeed;
                 enemy.setDead(true);
+                playing.getGame().getAudioPlayer().playEffect(audioPlayer.KICK);
 
             }
             //Collsion other direction
@@ -245,6 +248,8 @@ public class Player extends Entity {
     {
         playerAction = DEAD;
         isDead = true;
+        playing.getGame().getAudioPlayer().stopSong();
+        playing.getGame().getAudioPlayer().playEffect(audioPlayer.DIE);
     }
 
     private void jump() {
