@@ -74,7 +74,6 @@ public class HelpMethods {
             currentTile = (int) (hitbox.y / Game.TILES_SIZE) ;
             tileYPos = currentTile * Game.TILES_SIZE;
             return tileYPos;
-
     }
 
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
@@ -83,8 +82,8 @@ public class HelpMethods {
             return isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
 
         return true;
-
     }
+
     public static boolean isOnFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
         // Check if it's on the floor
         boolean onFloor = false;
@@ -96,8 +95,9 @@ public class HelpMethods {
 
         return onFloor;
     }
-    public static boolean nextToWall(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
 
+
+    public static boolean nextToWall(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
         // Check if it's next to a wall
         boolean nextToWall = false;
         if (xSpeed > 0) {
@@ -109,11 +109,8 @@ public class HelpMethods {
     }
 
 
-    public static boolean playerCollisionAboveEnemies(Rectangle2D.Float playerHitbox , Rectangle2D.Float enemyHitbox)
-    {
-
+    public static boolean playerCollisionAboveEnemies(Rectangle2D.Float playerHitbox , Rectangle2D.Float enemyHitbox) {
         if (playerHitbox.intersects(enemyHitbox)) {
-
             // Small tolerance
             return playerHitbox.y + playerHitbox.height <= enemyHitbox.y + 5;
         }
