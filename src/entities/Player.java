@@ -140,8 +140,11 @@ public class Player extends Entity {
     private void collisionFlag() {
         ArrayList<Flag> flags = levelManager.getFlags();
         for( Flag f : flags) {
-            if(hitbox.intersects(f.getHitbox()))
+            if(hitbox.intersects(f.getHitbox())) {
                 isWinning = true;
+                playing.getGame().getAudioPlayer().playEffect(audioPlayer.LVL_COMPLETED);
+                playing.getGame().getAudioPlayer().stopSong();
+            }
         }
 
     }
@@ -152,8 +155,6 @@ public class Player extends Entity {
 
         if(hitbox.x >= 4370){
             playing.setWinning(isWinning);
-            playing.getGame().getAudioPlayer().playEffect(audioPlayer.LVL_COMPLETED);
-            playing.getGame().getAudioPlayer().stopSong();
             // Make the player disappear by moving them off-screen
             hitbox.x = 4370;
             hitbox.y = -100;

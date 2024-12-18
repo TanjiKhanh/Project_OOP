@@ -20,6 +20,7 @@ public class audioPlayer {
     public static int LVL_COMPLETED = 1;
     public static int KICK = 2;
     public static int PAUSE = 3;
+    public static int JUMP = 4;
 
     private Clip[] songs, effects;
     private int currentSongId;
@@ -40,7 +41,7 @@ public class audioPlayer {
     }
 
     private void loadEffects() {
-        String[] effectNames = { "death", "lvl_complete", "kick", "pause"};
+        String[] effectNames = { "death", "lvl_complete", "kick", "pause", "jump"};
         effects = new Clip[effectNames.length];
         for (int i = 0; i < effects.length; i++)
             effects[i] = getClip(effectNames[i]);
