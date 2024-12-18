@@ -2,6 +2,7 @@ package ui;
 
 import GameConditions.Playing;
 import GameConditions.gameConditions;
+import audio.audioPlayer;
 import main.Game;
 import utilz.LoadSave;
 
@@ -74,11 +75,13 @@ public class CompletedOverlay {
                 playing.resetAll();
                 gameConditions.condition = gameConditions.MENU;
                 playing.unpauseGame();
+                playing.getGame().getAudioPlayer().playSong(audioPlayer.MENU_1);
             }
         } else if (isIn(replay, e))
             if (replay.isMousePressed()){
                 playing.resetAll();
                 playing.unpauseGame();
+                playing.getGame().getAudioPlayer().playSong(audioPlayer.MAIN_PLAY);
             }
 
         menu.resetBools();

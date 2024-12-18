@@ -137,30 +137,27 @@ public class Player extends Entity {
     }
 
 
-    private void collisionFlag()
-    {
+    private void collisionFlag() {
         ArrayList<Flag> flags = levelManager.getFlags();
-        for( Flag f : flags)
-        {
+        for( Flag f : flags) {
             if(hitbox.intersects(f.getHitbox()))
                 isWinning = true;
         }
 
     }
 
-    private void handleWinningAnimation()
-    {
+    private void handleWinningAnimation() {
 
         hitbox.x += playerSpeed;
 
         if(hitbox.x >= 4370){
             playing.setWinning(isWinning);
+            playing.getGame().getAudioPlayer().playEffect(audioPlayer.LVL_COMPLETED);
+            playing.getGame().getAudioPlayer().stopSong();
             // Make the player disappear by moving them off-screen
             hitbox.x = 4370;
             hitbox.y = -100;
         }
-
-
     }
 
     private void handleDeathAnimation() {
@@ -170,12 +167,10 @@ public class Player extends Entity {
             playing.setGameOver(true);
     }
 
-
     private void resetAniTick() {
         aniTick = 0;
         aniIndex = 0;
     }
-
 
     //Handle collision player with enemy
     private void collisionEnemy()
@@ -222,18 +217,9 @@ public class Player extends Entity {
             else if (hitbox.intersects(enemy.getHitbox()))
                 deadMovement();
         }
-
-
-
-
     }
 
-
-
     private void setPos() {
-
-
-
         float xSpeed = 0;
 
         if(!isWinning)
