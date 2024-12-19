@@ -77,7 +77,7 @@ public class GameOverOverLap {
             if (replayB.isMousePressed()) {
                 playing.resetAll();
                 playing.unpauseGame();
-                playing.getGame().getAudioPlayer().playSong(audioPlayer.MENU_1);
+                playing.getGame().getAudioPlayer().playSong(audioPlayer.MAIN_PLAY);
             }
         }
 

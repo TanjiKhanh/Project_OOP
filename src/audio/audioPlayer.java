@@ -14,11 +14,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class audioPlayer {
 
     public static int MENU_1 = 0;
+    public static int MAIN_PLAY = 1;
 
     public static int DIE = 0;
-    public static int JUMP = 1;
-    public static int LVL_COMPLETED = 2;
-    public static int KICK = 3;
+    public static int LVL_COMPLETED = 1;
+    public static int KICK = 2;
+    public static int PAUSE = 3;
+    public static int JUMP = 4;
 
     private Clip[] songs, effects;
     private int currentSongId;
@@ -32,14 +34,14 @@ public class audioPlayer {
     }
 
     private void loadSongs() {
-        String[] names = { "main_theme" };
+        String[] names = { "main_theme", "main_play"};
         songs = new Clip[names.length];
         for (int i = 0; i < songs.length; i++)
             songs[i] = getClip(names[i]);
     }
 
     private void loadEffects() {
-        String[] effectNames = { "death", "small_jump", "lvl_complete", "kick" };
+        String[] effectNames = { "death", "lvl_complete", "kick", "pause", "jump"};
         effects = new Clip[effectNames.length];
         for (int i = 0; i < effects.length; i++)
             effects[i] = getClip(effectNames[i]);
@@ -120,7 +122,7 @@ public class audioPlayer {
             booleanControl.setValue(effectMute);
         }
         if (!effectMute)
-            playEffect(JUMP);
+            playEffect(KICK);
     }
 
     private void updateSongVolume() {

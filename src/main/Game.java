@@ -46,11 +46,11 @@ public class Game implements Runnable {
 		gameOption = new gameOption(this);
 	}
     
-    private void startGameLoop()
-    {
+    private void startGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
     }
+
     private void update() {
 		switch (gameConditions.condition) {
 			case MENU:

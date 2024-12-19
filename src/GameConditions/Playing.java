@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
+import audio.audioPlayer;
 import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
@@ -53,7 +54,7 @@ public class Playing extends Condition implements ConditionMethods{
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager();
-        player = new Player(4000, 200, (int) ( SMALL_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (SMALL_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this , levelManager );
+        player = new Player(200, 200, (int) ( SMALL_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (SMALL_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this , levelManager );
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverLap = new GameOverOverLap(this);
@@ -80,7 +81,6 @@ public class Playing extends Condition implements ConditionMethods{
 
     @Override
     public void update() {
-
         if(gameOver) {
             gameOverOverLap.update();
             return;
@@ -163,8 +163,10 @@ public class Playing extends Condition implements ConditionMethods{
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJump(true);
+                getGame().getAudioPlayer().playEffect(audioPlayer.JUMP);
                 break;
             case KeyEvent.VK_ESCAPE:
+                getGame().getAudioPlayer().playEffect(audioPlayer.PAUSE);
                 paused = !paused;
                 break;
             case KeyEvent.VK_E:

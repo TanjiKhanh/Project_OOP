@@ -9,8 +9,7 @@ public class HelpMethods {
         if(!isSolid(x, y, lvlData))
             if(!isSolid(x + width, y + height, lvlData))
                 if(!isSolid(x + width, y, lvlData))
-                    if(!isSolid(x, y + height, lvlData))
-                        return true;
+                    return !isSolid(x, y + height, lvlData);
         return false;
     }
 
@@ -27,9 +26,7 @@ public class HelpMethods {
 
         int value = lvlData[(int)yIndex][(int)xIndex];
 
-        if(value >= 48 || value < 0 || value != 11)
-            return true;
-        return false;
+        return value != 11;
     }
 //    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
 //        int currentTile = (int) (hitbox.x / Game.TILES_SIZE);
@@ -54,7 +51,7 @@ public class HelpMethods {
             return tileXPos + xOffset - 1;
         } else {
             // Moving left: Align to the right edge of the current or neighboring left tile
-            if ( hitbox.x % Game.TILES_SIZE == 0) {
+            if (hitbox.x % Game.TILES_SIZE == 0) {
                 currentTile -= 1; // If perfectly aligned to a boundary, move to the left tile
             }
             int tileXPos = currentTile * Game.TILES_SIZE;
@@ -79,11 +76,11 @@ public class HelpMethods {
             return tileYPos;
 
     }
+
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
         // Check the pixel below bottomleft and bottomright
         if (!isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))
-            if (!isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData))
-                return false;
+            return isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData);
 
         return true;
 
@@ -117,9 +114,8 @@ public class HelpMethods {
 
         if (playerHitbox.intersects(enemyHitbox)) {
 
-            if (playerHitbox.y + playerHitbox.height <= enemyHitbox.y + 5) { // Small tolerance
-                return true;
-            }
+            // Small tolerance
+            return playerHitbox.y + playerHitbox.height <= enemyHitbox.y + 5;
         }
         return false;
     }
