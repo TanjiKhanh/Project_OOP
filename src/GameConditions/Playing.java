@@ -163,7 +163,6 @@ public class Playing extends Condition implements ConditionMethods{
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJump(true);
-                getGame().getAudioPlayer().playEffect(audioPlayer.JUMP);
                 break;
             case KeyEvent.VK_ESCAPE:
                 getGame().getAudioPlayer().playEffect(audioPlayer.PAUSE);
