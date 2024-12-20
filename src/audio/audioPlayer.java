@@ -76,17 +76,6 @@ public class audioPlayer {
             songs[currentSongId].stop();
     }
 
-
-    public void lvlCompleted() {
-        stopSong();
-        playEffect(LVL_COMPLETED);
-    }
-
-    public void playAttackSound() {
-        int start = 4;
-        playEffect(start);
-    }
-
     public void playEffect(int effect) {
         effects[effect].setMicrosecondPosition(0);
         effects[effect].start();

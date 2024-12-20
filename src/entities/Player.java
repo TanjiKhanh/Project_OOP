@@ -280,8 +280,10 @@ public class Player extends Entity {
     private void jump() {
         if (inAir)
             return;
+
         inAir = true;
         airSpeed = jumpSpeed;
+        playing.getGame().getAudioPlayer().playEffect(audioPlayer.JUMP);
     }
 
     private void resetInAir() {
@@ -297,6 +299,7 @@ public class Player extends Entity {
         else
             hitbox.x = GetEntityXPosNextToWall(hitbox , xSpeed);
     }
+
 
 
     //Draw animation per tick
