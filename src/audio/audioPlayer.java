@@ -52,10 +52,6 @@ public class audioPlayer {
     private Clip getClip(String name) {
         URL url = getClass().getResource("/sound/" + name + ".wav");
         AudioInputStream audio;
-        if (url == null) {
-            System.err.println("Không tìm thấy tệp âm thanh: " + name);
-            return null;
-        }
         try {
             audio = AudioSystem.getAudioInputStream(url);
             Clip c = AudioSystem.getClip();
@@ -63,12 +59,10 @@ public class audioPlayer {
             return c;
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-
             e.printStackTrace();
         }
 
         return null;
-
     }
 
     public void setVolume(float volume) {

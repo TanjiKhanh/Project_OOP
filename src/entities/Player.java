@@ -197,7 +197,6 @@ public class Player extends Entity {
                         continue;
                     }
                 }
-
             }
 
             // Regular collision handling
@@ -212,7 +211,6 @@ public class Player extends Entity {
                 airSpeed += 1.5f * jumpSpeed;
                 enemy.setDead(true);
                 playing.getGame().getAudioPlayer().playEffect(audioPlayer.KICK);
-
             }
             //Collsion other direction
             else if (hitbox.intersects(enemy.getHitbox()))
