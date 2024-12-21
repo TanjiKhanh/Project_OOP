@@ -164,7 +164,7 @@ public class Player extends Entity {
     private void handleDeathAnimation() {
         hitbox.y += deathVelocityY; // Move the player vertically
         deathVelocityY += deathGravity; // Apply gravity to velocity
-        if(hitbox.y >= Game.GAME_HEIGHT)
+        if(hitbox.y >= Game.GAME_HEIGHT + 200)
             playing.setGameOver(true);
     }
 
@@ -294,10 +294,12 @@ public class Player extends Entity {
 
     private void updateXPos(float xSpeed) {
         if (canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
-            hitbox.x += xSpeed;
+            hitbox.x += xSpeed; // Move normally if no collision
         }
-        else
-            hitbox.x = GetEntityXPosNextToWall(hitbox , xSpeed);
+        else {
+            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed); // Align to the wall
+        }
+
     }
 
 
