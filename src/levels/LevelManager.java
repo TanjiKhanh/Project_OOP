@@ -9,7 +9,6 @@ import entities.Flag;
 import main.Game;
 import utilz.LoadSave;
 
-import static utilz.Constants.BrickConstants.BRICK_SIDES_DEFAULT;
 import static utilz.Constants.PalaceConstants.*;
 import static utilz.Constants.PineConstants.PINE_SIDES_DEFAULT;
 
@@ -56,7 +55,7 @@ public class LevelManager {
 
         //Level background 2D array
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
-        levelSprite = new BufferedImage[51];
+        levelSprite = new BufferedImage[50];
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 12; i++) {
                 int index = j * 12 + i;
@@ -66,7 +65,6 @@ public class LevelManager {
         BufferedImage pineImg = LoadSave.GetSpriteAtlas(LoadSave.PINE_IMAGE);
         levelSprite[48] = pineImg.getSubimage(0 , 129 , PINE_SIDES_DEFAULT  , PINE_SIDES_DEFAULT - 1);
         levelSprite[49] = pineImg.getSubimage(0 , 145 , PINE_SIDES_DEFAULT , PINE_SIDES_DEFAULT / 2);
-        levelSprite[50] = pineImg.getSubimage(0 , 16 , BRICK_SIDES_DEFAULT , BRICK_SIDES_DEFAULT);
     }
 
 
@@ -98,9 +96,6 @@ public class LevelManager {
         for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < levelOne.getLevelData()[0].length; i++) {
                 int index = levelOne.getSpriteIndex(i, j);
-                if(index == 50)
-                    g.drawImage( levelSprite[index] ,  (int) Game.TILES_SIZE * i - lvlOffset , (int) Game.TILES_SIZE * j + 24  , (int)(BRICK_SIDES_DEFAULT * Game.SCALE ), (int)(BRICK_SIDES_DEFAULT * Game.SCALE) , null);
-                else
                     g.drawImage(levelSprite[index], Game.TILES_SIZE * i - lvlOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
 
             }

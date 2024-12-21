@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import entities.*;
 import main.Game;
 
-import static utilz.Constants.BrickConstants.BRICK;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.FlagConstants.FLAG;
 

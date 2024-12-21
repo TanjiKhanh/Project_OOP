@@ -54,7 +54,7 @@ public class Playing extends Condition implements ConditionMethods{
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager();
-        player = new Player(200, 200, (int) ( SMALL_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (SMALL_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this , levelManager );
+        player = new Player(200, 200, (int) ( BIG_MARIO_WIDTH_DEFAULT * Game.SCALE), (int) (BIG_MARIO_HEIGHT_DEFAULT * Game.SCALE) , enemyManager , this , levelManager );
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverLap = new GameOverOverLap(this);
@@ -165,8 +165,10 @@ public class Playing extends Condition implements ConditionMethods{
                 player.setJump(true);
                 break;
             case KeyEvent.VK_ESCAPE:
-                getGame().getAudioPlayer().playEffect(audioPlayer.PAUSE);
-                paused = !paused;
+                if( !gameOver && !isWinning){
+                    getGame().getAudioPlayer().playEffect(audioPlayer.PAUSE);
+                    paused = !paused;
+                }
                 break;
             case KeyEvent.VK_E:
                 player.setInAir(false);

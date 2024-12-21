@@ -42,17 +42,11 @@ public class Constants {
         public static final int JUMP = 20;
         public static final int FALLING = 21;
         public static final int DEAD = 28;
-        public static final int HIT = 5;
-        public static final int ATTACK = 6;
-        public static final int ATTACK_JUMP_1 = 7;
-        public static final int ATTACK_JUMP_2 = 8;
 
 
 
         public static final int BIG_MARIO_WIDTH_DEFAULT = 18;
         public static final int BIG_MARIO_HEIGHT_DEFAULT = 34;
-        public static final int SMALL_MARIO_WIDTH_DEFAULT = 16;
-        public static final int SMALL_MARIO_HEIGHT_DEFAULT = 25;
 
 
 
@@ -70,12 +64,6 @@ public class Constants {
                     return 0;
                 case DEAD:
                     return 0;
-                case HIT:
-                    return 4;
-                case ATTACK:
-                case ATTACK_JUMP_1:
-                case ATTACK_JUMP_2:
-                    return 3;
                 default:
                     return 1;
             }
@@ -155,12 +143,6 @@ public class Constants {
     }
 
 
-    //Box constants
-    public static class BrickConstants
-    {
-        public static final int BRICK = 3;
-        public static final int BRICK_SIDES_DEFAULT = 16;
-    }
 
     //Box constants
     public static class FlagConstants
