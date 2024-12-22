@@ -15,7 +15,6 @@ public class MenuButton {
     private boolean mouseOver, mousePressed;
     private Rectangle buttonsLayout;
 
-    // x y: mouse position, button:  
     public MenuButton(int x, int y, int buttonline, gameConditions condition){
         this.x = x;
         this.y = y;
