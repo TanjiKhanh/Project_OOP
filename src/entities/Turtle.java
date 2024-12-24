@@ -21,7 +21,7 @@ public class Turtle extends Enemy{
     @Override
     public void updateMove(int[][] lvlData) {
 
-
+        //Handle collision with another enemies
         if (isKicked) {
             ArrayList<Enemy> enemies = enemyManager.getEnemies();
             for (Enemy enemy : enemies) {
